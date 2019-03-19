@@ -29,7 +29,7 @@ public class AppTest {
 
 	@Test
 	public void registration() throws Exception {
-		this.mockmvc.perform(arg0)
+		
 	}
 
 }
