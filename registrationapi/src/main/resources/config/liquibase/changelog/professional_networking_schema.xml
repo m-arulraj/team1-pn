@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	
+	<property name="now" value="now()" dbms="mysql,h2" />
+	<property name="now" value="current_timestamp" dbms="postgresql" />
+	
+	<changeSet id="20190218120000" author="virtusa">
+	
+		<createTable tableName="STUDENT">
+				<column name="STUDENT_ID" type="bigint" startWith ="1" autoIncrement="true">
+					<constraints primaryKey="true" nullable="false" />
+				</column>
+				<column name="STUDENT_NAME" type="varchar(100)" />
+		</createTable>
+		
+		
+		<createTable tableName="COURSE">
+			<column name="COURSE_ID" type="bigint" startWith ="1" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="COURSE_NAME" type="varchar(100)" />
+		</createTable>
+		
+		<createTable tableName="COURSE_REGISTRATION">
+			<column name="COURSE_REG_ID" type="bigint" startWith ="1" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="STUDENT_FK" type="bigint" />
+			<column name="COURSE_FK" type="bigint" />
+		</createTable>
+		
+		 <addForeignKeyConstraint 
+		 	baseColumnNames="STUDENT_FK"
+            baseTableName="COURSE_REGISTRATION"
+            constraintName="FK_COURSE_REGISTRATION_STUDENT"
+            referencedColumnNames="STUDENT_ID"
+            referencedTableName="STUDENT"/>
+            
+          <addForeignKeyConstraint 
+		 	baseColumnNames="COURSE_FK"
+            baseTableName="COURSE_REGISTRATION"
+            constraintName="FK_COURSE_REGISTRATION_COURSE"
+            referencedColumnNames="COURSE_ID"
+            referencedTableName="COURSE"/>
+	
+	</changeSet>
+	
+</databaseChangeLog>
