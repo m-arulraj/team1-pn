@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class RegistrationapiApplication {
 
-	public static void main(String[] a){
-		SpringApplication.run(RegistrationapiApplication.class, a);
+	public static void main(String[] args){
+		SpringApplication.run(RegistrationapiApplication.class, args);
 	}
 }
