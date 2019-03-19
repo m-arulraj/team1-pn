@@ -6,7 +6,7 @@
 	<property name="now" value="now()" dbms="mysql,h2" />
 	<property name="now" value="current_timestamp" dbms="postgresql" />
 
-	<changeSet id="201903191309000" author="virtusa">
+	<changeSet id="20190319150200" author="virtusa">
 
 		<createTable tableName="user">
 			<column name="id" type="bigint" startWith="1" autoIncrement="true">
@@ -55,13 +55,13 @@
 			<column name="user_id" type="bigint"></column>
 			<column name="certifcate_id" type="bigint"></column>
 		</createTable>
-		<addForeignKeyConstraint baseColumnNames="id"
-			baseTableName="user" constraintName="user_certificate_fk"
-			referencedColumnNames="user_id" referencedTableName="user_certificate" />
-		<addForeignKeyConstraint baseColumnNames="id"
-			baseTableName="certificate" constraintName="certificate_user_fk"
-			referencedColumnNames="certifcate_id" referencedTableName="user_certificate" />
-
+		<addForeignKeyConstraint baseColumnNames="user_id"
+			baseTableName="user_certificate" constraintName="user_certificate_fk"
+			referencedColumnNames="id" referencedTableName="user" />
+		<addForeignKeyConstraint baseColumnNames="certifcate_id"
+			baseTableName="user_certificate" constraintName="certificate_user_fk"
+			referencedColumnNames="id" referencedTableName="certificate" />
+			
 		<createTable tableName="project">
 			<column name="id" type="bigint" startWith="1" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
@@ -76,18 +76,15 @@
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="user_id" type="bigint"></column>
-			<column name="proect_id" type="bigint"></column>
+			<column name="project_id" type="bigint"></column>
 		</createTable>
-		<addForeignKeyConstraint baseColumnNames="id"
-			baseTableName="user" 
-			constraintName="user_project_fk"
-			referencedColumnNames="user_id"
-			 referencedTableName="user_project" />
-		<addForeignKeyConstraint baseColumnNames="id"
-			baseTableName="project"
-			 constraintName="project_user_fk"
-			referencedColumnNames="project_id" 
-			referencedTableName="user_project" />
+		<addForeignKeyConstraint baseColumnNames="user_id"
+			baseTableName="user_project" constraintName="user_project_fk"
+			referencedColumnNames="id" referencedTableName="user" />
+		<addForeignKeyConstraint baseColumnNames="project_id"
+			baseTableName="user_project" constraintName="project_user_fk"
+			referencedColumnNames="id" referencedTableName="project" />
+			
 		
 		<createTable tableName="interest">
 			<column name="id" type="bigint" startWith="1" autoIncrement="true">
@@ -104,23 +101,18 @@
 			<column name="user_id" type="bigint"></column>
 			<column name="interest_id" type="bigint"></column>
 		</createTable>
-		<addForeignKeyConstraint baseColumnNames="id"
-			baseTableName="user" 
-			constraintName="user_interest_fk"
-			referencedColumnNames="user_id"
-			 referencedTableName="user_interest" />
-		<addForeignKeyConstraint baseColumnNames="id"
-			baseTableName="project"
-			 constraintName="interest_user_fk"
-			referencedColumnNames="interest_id" 
-			referencedTableName="user_interest" />
+		<addForeignKeyConstraint baseColumnNames="user_id"
+			baseTableName="user_interest" constraintName="user_interest_fk"
+			referencedColumnNames="id" referencedTableName="user" />
+		<addForeignKeyConstraint baseColumnNames="interest_id"
+			baseTableName="user_interest" constraintName="interest_user_fk"
+			referencedColumnNames="id" referencedTableName="interest" />
 		
 		<createTable tableName="skill">
 			<column name="id" type="bigint" startWith="1" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="name" type="varchar(30)" />
-
 		</createTable>
 		
 		<createTable tableName="user_skill">
@@ -130,16 +122,14 @@
 			<column name="user_id" type="bigint"></column>
 			<column name="skill_id" type="bigint"></column>
 		</createTable>
-		<addForeignKeyConstraint baseColumnNames="id"
-			baseTableName="user" 
-			constraintName="user_skill_fk"
-			referencedColumnNames="user_id"
-			 referencedTableName="user_skill" />
-		<addForeignKeyConstraint baseColumnNames="id"
-			baseTableName="skill"
-			 constraintName="skill_user_fk"
-			referencedColumnNames="skill_id" 
-			referencedTableName="user_skill" />
+		
+		<addForeignKeyConstraint baseColumnNames="user_id"
+			baseTableName="user_skill" constraintName="user_skill_fk"
+			referencedColumnNames="id" referencedTableName="user" />
+		<addForeignKeyConstraint baseColumnNames="skill_id"
+			baseTableName="user_skill" constraintName="skill_user_fk"
+			referencedColumnNames="id" referencedTableName="skill" />
+			
 		<createTable tableName="professional_info">
 			<column name="id" type="bigint" startWith="1" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
@@ -149,22 +139,19 @@
 			<column name="technology" type="varchar(30)" />
 
 		</createTable>
-		<createTable tableName="user_professional">
+		<createTable tableName="user_professional_info">
 			<column name="id" type="bigint" startWith="1" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="user_id" type="bigint"></column>
 			<column name="prof_id" type="bigint"></column>
 		</createTable>
-		<addForeignKeyConstraint baseColumnNames="id"
-			baseTableName="user" 
-			constraintName="user_prof_fk"
-			referencedColumnNames="user_id"
-			 referencedTableName="user_professional" />
-		<addForeignKeyConstraint baseColumnNames="id"
-			baseTableName="professional_info"
-			 constraintName="prof_user_fk"
-			referencedColumnNames="prof_id" 
-			referencedTableName="user_professional" />
+		
+		<addForeignKeyConstraint baseColumnNames="user_id"
+			baseTableName="user_professional_info" constraintName="user_professional_info_fk"
+			referencedColumnNames="id" referencedTableName="user" />
+		<addForeignKeyConstraint baseColumnNames="prof_id"
+			baseTableName="user_professional_info" constraintName="professional_info_user_fk"
+			referencedColumnNames="id" referencedTableName="professional_info" />
 	</changeSet>
 </databaseChangeLog>
