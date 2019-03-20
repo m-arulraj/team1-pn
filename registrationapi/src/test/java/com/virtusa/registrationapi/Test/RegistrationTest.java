@@ -44,12 +44,10 @@ public class RegistrationTest {
 		user.setState("up");
 		user.setPassword("mukul");
 
-		String uri = "/registeruser";
+		String uri = "/api/user/registration";
 		ResultActions result = mvc.perform(MockMvcRequestBuilders.post(uri).contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(user))).andExpect(MockMvcResultMatchers.status().isCreated());
-		System.out.println(result);
+	
 	}
-	
-	
 
 }
