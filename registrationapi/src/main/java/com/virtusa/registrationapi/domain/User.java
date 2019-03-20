@@ -1,7 +1,5 @@
 package com.virtusa.registrationapi.domain;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +14,7 @@ public class User {
 	Long id;
 	String name;
 	String email;
-	Date dob;
+	String dob;
 	Long phone;
 	String gender;
 	String country;
@@ -50,11 +48,13 @@ public class User {
 		this.email = email;
 	}
 
-	public Date getDob() {
+	
+	
+	public String getDob() {
 		return dob;
 	}
 
-	public void setDob(Date dob) {
+	public void setDob(String dob) {
 		this.dob = dob;
 	}
 
