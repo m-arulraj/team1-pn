@@ -19,15 +19,12 @@ public class UserRegistrationController {
 
 	@Autowired
 	private UserRegistrationService service;
-	User user;
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public ResponseEntity<String> registerUser(@RequestBody User user) throws URISyntaxException {
 
 		ResponseEntity<String> response = ResponseEntity
 				.created(new URI("/api/user/registration/" + service.saveUser(user))).build();
-		
-		
 
 		return response;
 	}
