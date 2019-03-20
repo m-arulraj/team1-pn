@@ -24,7 +24,7 @@ public class User {
 	@Column(name="email")
 	String email;
 	@Column(name="dob")
-	Date dob;
+	String dob;
 	@Column(name="phone")
 	Long phone;
 	@Column(name="gender")
@@ -64,12 +64,22 @@ public class User {
 		this.email = email;
 	}
 
-	public Date getDob() {
+
+
+	public String getDob() {
 		return dob;
 	}
 
-	public void setDob(Date dob) {
+	public void setDob(String dob) {
 		this.dob = dob;
+	}
+
+	public Education getEducation() {
+		return education;
+	}
+
+	public void setEducation(Education education) {
+		this.education = education;
 	}
 
 	public Long getPhone() {
