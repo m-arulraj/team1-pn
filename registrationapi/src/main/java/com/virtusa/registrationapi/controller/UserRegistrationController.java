@@ -20,7 +20,7 @@ public class UserRegistrationController {
 	@RequestMapping(value="", method=RequestMethod.POST)
 	public User registerUser(@RequestBody User user){
 		this.user=service.saveUser(user);
-		System.out.println(user.getEmail());
+		
 		return this.user;
 	}
 }

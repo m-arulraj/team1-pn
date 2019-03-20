@@ -1,7 +1,5 @@
 package com.virtusa.registrationapi.domain;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +22,7 @@ public class User {
 	@Column(name="email")
 	String email;
 	@Column(name="dob")
-	Date dob;
+	String dob;
 	@Column(name="phone")
 	Long phone;
 	@Column(name="gender")
@@ -64,11 +62,11 @@ public class User {
 		this.email = email;
 	}
 
-	public Date getDob() {
+	public String getDob() {
 		return dob;
 	}
 
-	public void setDob(Date dob) {
+	public void setDob(String dob) {
 		this.dob = dob;
 	}
 
