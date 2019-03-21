@@ -1,5 +1,6 @@
 package com.virtusa.registrationapi.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -30,8 +31,17 @@ public class UserRegistrationService {
 		return this.user;
 	}
 
+	public User getuserByEmail(String email) {
+		return repository.findByEmail(email);
+		
+	}
+	
 	public Optional<User> getusers(Long id) {
 		return repository.findById(id);
 		
 	}
+	public List<User> getUsersByName(String name){
+		return repository.findByName(name);
+	}
+	
 }
