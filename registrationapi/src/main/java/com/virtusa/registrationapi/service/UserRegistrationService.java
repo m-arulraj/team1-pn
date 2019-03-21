@@ -32,11 +32,14 @@ public class UserRegistrationService {
 	}
 
 	public User getuserByEmail(String email) {
+		
+		logger.debug("service invoked for get user by email");
 		return repository.findByEmail(email);
 		
 	}
 	
 	public Optional<User> getusers(Long id) {
+		logger.debug("service invoked for get users by name");
 		return repository.findById(id);
 		
 	}
