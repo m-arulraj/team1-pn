@@ -20,9 +20,16 @@ import com.virtusa.registrationapi.service.UserRegistrationService;
 @RequestMapping("/api/user/registration")
 public class UserRegistrationController {
 
+
 	@Autowired
 	private UserRegistrationService service;
 
+	@Autowired
+	private SkillRegistrationService skillRegistration;
+	
+	Long userid;
+
+	Long skillid;
 	//get logger
 	static Logger logger=Logger.getLogger(UserRegistrationController.class);
 
@@ -82,6 +89,32 @@ public class UserRegistrationController {
 		//return user
 		return users;
 	}
-	
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+	public Optional<User> getuser(@PathVariable(name = "id") Long id) {
+
+		return userservice.getusers(id);
+
+	}
+
+	//posting skill data
+	@RequestMapping(value = "/addskill", method = RequestMethod.POST)
+	public ResponseEntity<String> registerskill(@RequestBody Skill skill) throws URISyntaxException {
+
+		Skill skilldata = skillRegistration.saveskill(skill);
+		skillid = skilldata.getId();
+
+		ResponseEntity<String> response = ResponseEntity
+				.created(new URI("/api/user/registration/addskill" + skillRegistration.saveskill(skill).getId()))
+				.build();
+
+		return response;
+
+	}
+	//getting skill data based on id 
+	@RequestMapping(value="/addskill/{id}",method=RequestMethod.GET)
+	public Optional<Skill> getskills(@PathVariable(name="id") Long skillid){
+
+		return skillRegistration.getallskills(skillid);
+	}
 	
 }
