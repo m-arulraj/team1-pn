@@ -121,13 +121,4 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-/*	public Education getEducation() {
-		return education;
-	}
-
-	public void setEducation(Education education) {
-		this.education = education;
-	}*/
-
 }

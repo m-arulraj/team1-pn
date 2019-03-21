@@ -1,7 +1,5 @@
 package com.virtusa.registrationconsumer.controller;
 
-import javax.validation.Valid;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,7 +12,7 @@ import com.virtusa.registrationconsumer.domain.User;
 @Controller
 public class RegisterController {
 
-	@RequestMapping(value="/",method=RequestMethod.GET)
+	@RequestMapping(value="/register",method=RequestMethod.GET)
 	String registerPage(Model model){
 		model.addAttribute("user",new User());
 		return "register";
@@ -23,6 +21,13 @@ public class RegisterController {
 	@RequestMapping(value="/save",method=RequestMethod.POST)
 	@ResponseBody String  savePage(@ModelAttribute("user") User user,Model model){
 		System.out.println(user.getEmail());
+		System.out.println(user.getGender());
 		return "register";
+	}
+	
+	@RequestMapping(value="/login",method=RequestMethod.GET)
+	String loginPage(Model model){
+		model.addAttribute("loginUser",new User());
+		return "login";
 	}
 }
