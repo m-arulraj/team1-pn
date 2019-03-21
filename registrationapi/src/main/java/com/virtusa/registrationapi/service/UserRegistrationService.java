@@ -1,5 +1,7 @@
 package com.virtusa.registrationapi.service;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
@@ -15,15 +17,21 @@ public class UserRegistrationService {
 
 	@Autowired
 	private UserRegistrationRepository repository;
-	private User user; 
+	private User user;
 	static Logger logger;
+
 	@Transactional
-	public User saveUser(User user){
-		
-		//get logger
-		logger=Logger.getLogger(UserRegistrationController.class.getName());
+	public User saveUser(User user) {
+
+		// get logger
+		logger = Logger.getLogger(UserRegistrationController.class.getName());
 		logger.debug("service invoked for registration api");
-		this.user=repository.save(user);
+		this.user = repository.save(user);
 		return this.user;
+	}
+
+	public Optional<User> getusers(Long id) {
+		return repository.findById(id);
+		
 	}
 }

@@ -14,11 +14,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.google.gson.Gson;
-import com.virtusa.registrationapi.domain.User;
+import com.virtusa.registrationapi.domain.Skill;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class RegistrationTest {
+public class SkillTest {
 
 	public MockMvc mvc;
 
@@ -32,30 +32,22 @@ public class RegistrationTest {
 
 	@Test
 	public void test() throws Exception {
-		User user = new User();
-		user.setName("mukul");
-		user.setEmail("mukul@gmail.com");
-		user.setDob("2016-03-12");
-		user.setPhone(999999999999L);
-		user.setGender("male");
-		user.setCountry("india");
-		user.setState("up");
-		user.setPassword("mukul");
+		Skill skill = new Skill();
+		skill.setName("Java");
 
-		String uri = "/api/user/registration";
+		String uri = "/api/user/registration/addskill";
 		String result = mvc
 				.perform(MockMvcRequestBuilders.post(uri).contentType(MediaType.APPLICATION_JSON)
-						.content(new Gson().toJson(user)))
-				.andExpect(MockMvcResultMatchers.status().isCreated()).andReturn().getResponse().getHeader("Location")
+						.content(new Gson().toJson(skill)))
+				.andExpect(MockMvcResultMatchers.status().isCreated()).andReturn().getResponse()
+				.getHeader("Location")
 				.toString();
 
 		if (result != null) {
-			String geturi = "/api/user/registration/user/1";
-			mvc.perform(MockMvcRequestBuilders.get(geturi).contentType(MediaType.APPLICATION_JSON))
-					.andExpect(MockMvcResultMatchers.status().isOk()).andReturn().getResponse().getContentAsString();
 
+			mvc.perform(MockMvcRequestBuilders.get("/api/user/registration/addskill/1")
+					.contentType(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().isOk());
 		}
-
 	}
 
 }
