@@ -14,9 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.virtusa.registrationapi.domain.Certificate;
+import com.virtusa.registrationapi.domain.ProfessionalInformation;
 import com.virtusa.registrationapi.domain.Project;
 import com.virtusa.registrationapi.domain.Skill;
 import com.virtusa.registrationapi.domain.User;
+import com.virtusa.registrationapi.service.CertificateRegistrationService;
+import com.virtusa.registrationapi.service.ProfessionalInformationRegistrationService;
 import com.virtusa.registrationapi.service.ProjectRegistrationService;
 import com.virtusa.registrationapi.service.SkillRegistrationService;
 import com.virtusa.registrationapi.service.UserRegistrationService;
@@ -33,7 +37,13 @@ public class UserRegistrationController {
 	private SkillRegistrationService skillRegistrationService;
 	
 	@Autowired
+	private CertificateRegistrationService certificateRegistrationService;
+	
+	@Autowired
 	private ProjectRegistrationService projectRegistrationService;
+	
+	@Autowired
+	private ProfessionalInformationRegistrationService professionalInformationRegistrationService;
 	
 	Long userid;
 
@@ -174,4 +184,86 @@ public class UserRegistrationController {
 		logger.debug("controller invoked for getting sill by name");
 		return skillRegistrationService.getSkillByName(name);
 	}
+	
+	//posting ProfessionalInformation data
+		@RequestMapping(value = "/addrofessionalinformation/{email}", method = RequestMethod.POST)
+		public ResponseEntity<String> registerProfessionalInformation(@RequestBody ProfessionalInformation professionalInformation, @PathVariable(name="email") String email) throws URISyntaxException {
+
+			logger.info("registering ProfessionalInformation");
+			logger.debug("controller invoked for registering ProfessionalInformation");
+			
+			ResponseEntity<String> response = ResponseEntity
+					.created(new URI("/api/user/registration/" +professionalInformationRegistrationService.saveProfessionalInformation(professionalInformation,email))).build();
+
+			logger.debug("saved ProfessionalInformation");
+			logger.debug("returnning response");
+			return response;
+		}
+		
+		//getting ProfessionalInformation data based on id 
+		@RequestMapping(value="/getprofessionalinformation/{id}",method=RequestMethod.GET)
+		public Optional<ProfessionalInformation> getProfessionalInformation(@PathVariable(name="id") Long professionalInformationId){
+			logger.info("getting ProfessionalInformation");
+			logger.debug("controller invoked for getting ProfessionalInformation by id");
+			return professionalInformationRegistrationService.getProfessionalInformation(professionalInformationId);
+		}
+		
+		//getting all ProfessionalInformation
+		@RequestMapping(value="/getprofessionalinformation",method=RequestMethod.GET)
+		public List<ProfessionalInformation> getProfessionalInformations(){
+
+			logger.info("getting ProfessionalInformation");
+			logger.debug("controller invoked for getting all ProfessionalInformation");
+			return professionalInformationRegistrationService.getProfessionalInformations();
+		}
+		
+		//getting ProfessionalInformation based on name
+		@RequestMapping(value="/getprofessionalinformationforcompanyname/{name}",method=RequestMethod.GET)
+		public Optional<ProfessionalInformation> getProfessionalInformations(@PathVariable(name="name") String companyName){
+
+			logger.info("getting ProfessionalInformation");
+			logger.debug("controller invoked for getting ProfessionalInformation by name");
+			return professionalInformationRegistrationService.getProfessionalInformationByInstituteName(companyName);
+		}
+		
+		//posting Certificate data
+			@RequestMapping(value = "/addcertificate/{email}", method = RequestMethod.POST)
+			public ResponseEntity<String> registerCertificate(@RequestBody Certificate certificate, @PathVariable(name="email") String email) throws URISyntaxException {
+
+				logger.info("registering Certificate");
+				logger.debug("controller invoked for registering Certificate");
+				
+				ResponseEntity<String> response = ResponseEntity
+						.created(new URI("/api/user/registration/" +certificateRegistrationService.saveCertificate(certificate,email))).build();
+
+				logger.debug("saved Certificate");
+				logger.debug("returnning response");
+				return response;
+			}
+			
+			//getting Certificate data based on id 
+			@RequestMapping(value="/getcertificate/{id}",method=RequestMethod.GET)
+			public Optional<Certificate> getCertificate(@PathVariable(name="id") Long certificateId){
+				logger.info("getting Certificate");
+				logger.debug("controller invoked for getting Certificate by id");
+				return certificateRegistrationService.getCertificate(certificateId);
+			}
+			
+			//getting all Certificate
+			@RequestMapping(value="/getcertificate",method=RequestMethod.GET)
+			public List<Certificate> getCertificates(){
+
+				logger.info("getting Certificate");
+				logger.debug("controller invoked for getting all Certificate");
+				return certificateRegistrationService.getCertificates();
+			}
+			
+			//getting Certificate based on name
+			@RequestMapping(value="/getCertificateforinstitutename/{name}",method=RequestMethod.GET)
+			public Optional<Certificate> getCertificate(@PathVariable(name="name") String instituteName){
+
+				logger.info("getting Certificate");
+				logger.debug("controller invoked for getting Certificate by name");
+				return certificateRegistrationService.getCertificateByInstituteName(instituteName);
+			}
 }

@@ -32,6 +32,7 @@ public Project saveProject(Project project,String email) {
 		User user= service.getuserByEmail(email);
 		
 		logger.debug("got user based on email");
+		logger.debug(user.getEmail());
 		
 		Set<User> users=new HashSet<User>();
 		logger.debug("got users of project");

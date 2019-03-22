@@ -59,8 +59,26 @@ public class User {
 		        inverseJoinColumns = { @JoinColumn(name = "project_id") }
 		    )
 	
-	Set<Project> projects;
+	Set<Certificate> certificates;
 
+	@ManyToMany(cascade = { CascadeType.ALL },fetch=FetchType.EAGER)
+	 @JoinTable(
+		        name = "user_certificate", 
+		        joinColumns = { @JoinColumn(name = "user_id") }, 
+		        inverseJoinColumns = { @JoinColumn(name = "certificate_id") }
+		    )
+	
+	Set<Project> projects;
+	
+	@ManyToMany(cascade = { CascadeType.ALL },fetch=FetchType.EAGER)
+	 @JoinTable(
+		        name = "user_professional_info", 
+		        joinColumns = { @JoinColumn(name = "user_id") }, 
+		        inverseJoinColumns = { @JoinColumn(name = "prof_id") }
+		    )
+	
+	Set<ProfessionalInformation> professionalInformations;
+	
 	public Long getId() {
 		return id;
 	}
@@ -157,5 +175,21 @@ public class User {
 
 	public void setProjects(Set<Project> projects) {
 		this.projects = projects;
+	}
+
+	public Set<Certificate> getCertificates() {
+		return certificates;
+	}
+
+	public void setCertificates(Set<Certificate> certificates) {
+		this.certificates = certificates;
+	}
+
+	public Set<ProfessionalInformation> getProfessionalInformations() {
+		return professionalInformations;
+	}
+
+	public void setProfessionalInformations(Set<ProfessionalInformation> professionalInformations) {
+		this.professionalInformations = professionalInformations;
 	}
 }

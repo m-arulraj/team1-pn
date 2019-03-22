@@ -35,7 +35,7 @@ public class SkillTest {
 		Skill skill = new Skill();
 		skill.setName("Java");
 
-		String uri = "/api/user/registration/addskill";
+		String uri = "/api/user/registration/addskill/mukul.com";
 		String result = mvc
 				.perform(MockMvcRequestBuilders.post(uri).contentType(MediaType.APPLICATION_JSON)
 						.content(new Gson().toJson(skill)))
@@ -45,7 +45,7 @@ public class SkillTest {
 
 		if (result != null) {
 
-			mvc.perform(MockMvcRequestBuilders.get("/api/user/registration/addskill/1")
+			mvc.perform(MockMvcRequestBuilders.get("/api/user/registration/getskill/1")
 					.contentType(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().isOk());
 		}
 	}
