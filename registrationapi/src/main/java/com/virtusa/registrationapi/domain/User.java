@@ -1,13 +1,17 @@
 package com.virtusa.registrationapi.domain;
 
-import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -24,7 +28,7 @@ public class User {
 	@Column(name="email")
 	String email;
 	@Column(name="dob")
-	Date dob;
+	String dob;
 	@Column(name="phone")
 	Long phone;
 	@Column(name="gender")
@@ -39,6 +43,23 @@ public class User {
 	@OneToOne()
 	@JoinColumn(name="education_id")
 	Education education;
+	
+	@ManyToMany(cascade = { CascadeType.ALL },fetch=FetchType.EAGER)
+	 @JoinTable(
+		        name = "user_skill", 
+		        joinColumns = { @JoinColumn(name = "user_id") }, 
+		        inverseJoinColumns = { @JoinColumn(name = "skill_id") }
+		    )
+	Set<Skill> skills;
+	
+	@ManyToMany(cascade = { CascadeType.ALL },fetch=FetchType.EAGER)
+	 @JoinTable(
+		        name = "user_project", 
+		        joinColumns = { @JoinColumn(name = "user_id") }, 
+		        inverseJoinColumns = { @JoinColumn(name = "project_id") }
+		    )
+	
+	Set<Project> projects;
 
 	public Long getId() {
 		return id;
@@ -64,12 +85,22 @@ public class User {
 		this.email = email;
 	}
 
-	public Date getDob() {
+
+
+	public String getDob() {
 		return dob;
 	}
 
-	public void setDob(Date dob) {
+	public void setDob(String dob) {
 		this.dob = dob;
+	}
+
+	public Education getEducation() {
+		return education;
+	}
+
+	public void setEducation(Education education) {
+		this.education = education;
 	}
 
 	public Long getPhone() {
@@ -112,12 +143,19 @@ public class User {
 		this.password = password;
 	}
 
-/*	public Education getEducation() {
-		return education;
+	public Set<Skill> getSkills() {
+		return skills;
 	}
 
-	public void setEducation(Education education) {
-		this.education = education;
-	}*/
+	public void setSkills(Set<Skill> skills) {
+		this.skills = skills;
+	}
 
+	public Set<Project> getProjects() {
+		return projects;
+	}
+
+	public void setProjects(Set<Project> projects) {
+		this.projects = projects;
+	}
 }
