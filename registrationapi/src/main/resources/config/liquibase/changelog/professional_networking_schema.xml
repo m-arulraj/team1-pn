@@ -66,9 +66,9 @@
 			<column name="id" type="bigint" startWith="1" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="type" type="varchar(30)" />
-			<column name="desc" type="varchar(300)" />
-			<column name="role" type="varchar(50)" />
+			<column name="type" type="varchar(100)" />
+			<column name="description" type="varchar(100)" />
+			<column name="role" type="varchar(100)" />
 		</createTable>
 		
 		<createTable tableName="user_project">
@@ -116,9 +116,6 @@
 		</createTable>
 		
 		<createTable tableName="user_skill">
-			<column name="id" type="bigint" startWith="1" autoIncrement="true">
-				<constraints primaryKey="true" nullable="false" />
-			</column>
 			<column name="user_id" type="bigint"></column>
 			<column name="skill_id" type="bigint"></column>
 		</createTable>
