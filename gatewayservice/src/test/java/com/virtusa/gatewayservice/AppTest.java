@@ -1,4 +1,4 @@
-package com.virtusa.registrationconsumer;
+package com.virtusa.gatewayservice;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

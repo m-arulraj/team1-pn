@@ -1,14 +1,17 @@
 server:
-    port: 9090
-
+  port: 8072
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+logging:
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} ${LOG_LEVEL_PATTERN:-%5p} %m%n'
+  
 spring:
-    profiles:
-        active: dev
     datasource:
-        dataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
+        dataSourceClassName: com.mysql.cj.jdbc.MysqlDataSource
         url: jdbc:mysql://${DB_URL:172.25.229.21}:${DB_PORT:3306}/${DB_NAME:professional_networking}
-        databaseName:
-        serverName:
         username: ${DB_USERNAME:root}
         password: ${DB_PASSWORD:root}
         connectionTimeout: 10000
@@ -16,7 +19,7 @@ spring:
         prepStmtCacheSize: 250
         prepStmtCacheSqlLimit: 2048
         useServerPrepStmts: true
-
+        
     jpa:
         database-platform: org.hibernate.dialect.MySQL5Dialect
         database: MYSQL
