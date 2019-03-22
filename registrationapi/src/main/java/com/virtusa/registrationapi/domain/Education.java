@@ -19,6 +19,7 @@ public class Education {
 	String postgraduation;
 	
 	
+	
 	public Long getId() {
 		return id;
 	}

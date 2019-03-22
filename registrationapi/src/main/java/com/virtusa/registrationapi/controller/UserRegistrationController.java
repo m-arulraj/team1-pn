@@ -3,6 +3,7 @@ package com.virtusa.registrationapi.controller;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.virtusa.registrationapi.domain.Project;
+import com.virtusa.registrationapi.domain.Skill;
 import com.virtusa.registrationapi.domain.User;
+import com.virtusa.registrationapi.service.ProjectRegistrationService;
+import com.virtusa.registrationapi.service.SkillRegistrationService;
 import com.virtusa.registrationapi.service.UserRegistrationService;
 
 @RestController
@@ -25,7 +30,10 @@ public class UserRegistrationController {
 	private UserRegistrationService service;
 
 	@Autowired
-	private SkillRegistrationService skillRegistration;
+	private SkillRegistrationService skillRegistrationService;
+	
+	@Autowired
+	private ProjectRegistrationService projectRegistrationService;
 	
 	Long userid;
 
@@ -54,11 +62,22 @@ public class UserRegistrationController {
 		return response;
 	}
 	
+	//getting all users
+	public List<User> getAllUsers(){
+		logger.info("geting users");
+		logger.debug("controller invoked for getting all users");
+		List<User> users=null;
+		users=service.getAllUsers();
+		return users;
+		
+	}
+	
+	//getting user based on email
 	@RequestMapping(value="/userforemail/{email}", method=RequestMethod.GET)
 	public User getUserByEmail(@PathVariable String email){
 		
 		User user=null;
-		
+		logger.info("getting user");
 		logger.debug("controller invoked for getting user");
 		
 		//get user object from service
@@ -72,13 +91,13 @@ public class UserRegistrationController {
 		return user;
 	}
 	
+	//getting user based on name
 	@RequestMapping(value="/usersforname/{name}", method=RequestMethod.GET)
 	public List<User> getUserByName(@PathVariable String name){
 		
 		List<User> users=null;
-		
+		logger.info("getting users");
 		logger.debug("controller invoked for getting user");
-		
 		//get user object from service
 		users=service.getUsersByName(name);
 		if(users!=null){
@@ -89,32 +108,70 @@ public class UserRegistrationController {
 		//return user
 		return users;
 	}
+	
+	//getting user based o id 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-	public Optional<User> getuser(@PathVariable(name = "id") Long id) {
-
-		return userservice.getusers(id);
+	public Optional<User> getUser(@PathVariable(name = "id") Long id) {
+		
+		logger.info("getting user");
+		logger.debug("controller invoked for getting user by id");
+		return service.getUser(id);
 
 	}
 
 	//posting skill data
-	@RequestMapping(value = "/addskill", method = RequestMethod.POST)
-	public ResponseEntity<String> registerskill(@RequestBody Skill skill) throws URISyntaxException {
+	@RequestMapping(value = "/addskill/{email}", method = RequestMethod.POST)
+	public ResponseEntity<String> registerSkill(@RequestBody Skill skill, @PathVariable(name="email") String email) throws URISyntaxException {
 
-		Skill skilldata = skillRegistration.saveskill(skill);
-		skillid = skilldata.getId();
-
+		logger.info("registering skills");
+		logger.debug("controller invoked for registering skill");
+		
 		ResponseEntity<String> response = ResponseEntity
-				.created(new URI("/api/user/registration/addskill" + skillRegistration.saveskill(skill).getId()))
-				.build();
+				.created(new URI("/api/user/registration/" +skillRegistrationService.saveSkill(skill,email))).build();
 
+		logger.debug("saved skill");
+		logger.debug("returnning response");
 		return response;
-
-	}
-	//getting skill data based on id 
-	@RequestMapping(value="/addskill/{id}",method=RequestMethod.GET)
-	public Optional<Skill> getskills(@PathVariable(name="id") Long skillid){
-
-		return skillRegistration.getallskills(skillid);
 	}
 	
+	   //posting project data
+		@RequestMapping(value = "/addproject/{email}", method = RequestMethod.POST)
+		public ResponseEntity<String> registerProject(@RequestBody Project project, @PathVariable(name="email") String email) throws URISyntaxException {
+
+			logger.info("registering project");
+			logger.debug("controller invoked for registering project");
+			
+			ResponseEntity<String> response = ResponseEntity
+					.created(new URI("/api/user/registration/" +projectRegistrationService.saveProject(project,email))).build();
+
+			logger.debug("saved project");
+			logger.debug("returnning response");
+			return response;
+		}
+	
+	//getting skill data based on id 
+	@RequestMapping(value="/getskill/{id}",method=RequestMethod.GET)
+	public Optional<Skill> getskill(@PathVariable(name="id") Long skillId){
+		logger.info("getting skill");
+		logger.debug("controller invoked for getting skill by id");
+		return skillRegistrationService.getSkill(skillId);
+	}
+	
+	//getting all skills
+	@RequestMapping(value="/getskills",method=RequestMethod.GET)
+	public List<Skill> getskills(){
+
+		logger.info("getting skills");
+		logger.debug("controller invoked for getting all skills");
+		return skillRegistrationService.getSkills();
+	}
+	
+	//getting skill based on name
+	@RequestMapping(value="/getskillforname/{name}",method=RequestMethod.GET)
+	public Optional<Skill> getskill(@PathVariable(name="name") String name){
+
+		logger.info("getting skills");
+		logger.debug("controller invoked for getting sill by name");
+		return skillRegistrationService.getSkillByName(name);
+	}
 }

@@ -1,13 +1,17 @@
 package com.virtusa.registrationapi.domain;
 
-import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -39,6 +43,23 @@ public class User {
 	@OneToOne()
 	@JoinColumn(name="education_id")
 	Education education;
+	
+	@ManyToMany(cascade = { CascadeType.ALL },fetch=FetchType.EAGER)
+	 @JoinTable(
+		        name = "user_skill", 
+		        joinColumns = { @JoinColumn(name = "user_id") }, 
+		        inverseJoinColumns = { @JoinColumn(name = "skill_id") }
+		    )
+	Set<Skill> skills;
+	
+	@ManyToMany(cascade = { CascadeType.ALL },fetch=FetchType.EAGER)
+	 @JoinTable(
+		        name = "user_project", 
+		        joinColumns = { @JoinColumn(name = "user_id") }, 
+		        inverseJoinColumns = { @JoinColumn(name = "project_id") }
+		    )
+	
+	Set<Project> projects;
 
 	public Long getId() {
 		return id;
@@ -120,5 +141,21 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Set<Skill> getSkills() {
+		return skills;
+	}
+
+	public void setSkills(Set<Skill> skills) {
+		this.skills = skills;
+	}
+
+	public Set<Project> getProjects() {
+		return projects;
+	}
+
+	public void setProjects(Set<Project> projects) {
+		this.projects = projects;
 	}
 }

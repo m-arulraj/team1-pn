@@ -19,32 +19,43 @@ public class UserRegistrationService {
 	@Autowired
 	private UserRegistrationRepository repository;
 	private User user;
-	static Logger logger;
+	static Logger logger= Logger.getLogger(UserRegistrationService.class.getName());
 
+	//save user
 	@Transactional
 	public User saveUser(User user) {
 
-		// get logger
-		logger = Logger.getLogger(UserRegistrationController.class.getName());
 		logger.debug("service invoked for registration api");
 		this.user = repository.save(user);
 		return this.user;
 	}
 
-	public User getuserByEmail(String email) {
-		
+	
+	//get user based on email
+	public User getuserByEmail(String email) {	
 		logger.debug("service invoked for get user by email");
 		return repository.findByEmail(email);
-		
 	}
 	
-	public Optional<User> getusers(Long id) {
-		logger.debug("service invoked for get users by name");
+	//getting user based on id
+	public Optional<User> getUser(Long id) {
+		logger.debug("service invoked for get users by id");
 		return repository.findById(id);
-		
 	}
+	
+	//getting users based on name
 	public List<User> getUsersByName(String name){
+		logger.debug("service invoked for getting users by name");
 		return repository.findByName(name);
+	}
+	
+	//getting all users
+	public List<User> getAllUsers(){
+
+		logger.debug("service invoked for getting all users");
+		List<User> users=null;
+		users=repository.findAll();
+		return users;
 	}
 	
 }
