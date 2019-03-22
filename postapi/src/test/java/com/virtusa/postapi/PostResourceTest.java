@@ -3,7 +3,6 @@ package com.virtusa.postapi;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -16,8 +15,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.google.gson.Gson;
 import com.virtusa.postapi.domain.Post;
-import com.virtusa.postapi.resource.PostResource;
-import com.virtusa.postapi.service.PostService;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
