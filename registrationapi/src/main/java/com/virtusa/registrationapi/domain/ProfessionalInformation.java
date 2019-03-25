@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="professional_info")
 public class ProfessionalInformation {
@@ -21,13 +24,14 @@ public class ProfessionalInformation {
 	@Column(name="company_name")
 	private String companyName;
 	
-	@Column(name="experince")
-	private String expeience;
+	@Column(name="experience")
+	private String experience;
 	
 	@Column(name="technology")
 	private String technology;
 	
-	@ManyToMany(mappedBy="skills")
+	@JsonBackReference
+	@ManyToMany(mappedBy="professionalInformations")
 	Set<User> users;
 
 	public Long getId() {
@@ -46,12 +50,12 @@ public class ProfessionalInformation {
 		this.companyName = companyName;
 	}
 
-	public String getExpeience() {
-		return expeience;
+	public String getExperience() {
+		return experience;
 	}
 
-	public void setExpeience(String expeience) {
-		this.expeience = expeience;
+	public void setExperience(String experience) {
+		this.experience = experience;
 	}
 
 	public String getTechnology() {
@@ -69,4 +73,6 @@ public class ProfessionalInformation {
 	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
+
+	
 }

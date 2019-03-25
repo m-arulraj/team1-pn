@@ -6,7 +6,7 @@
 	<property name="now" value="now()" dbms="mysql,h2" />
 	<property name="now" value="current_timestamp" dbms="postgresql" />
 
-	<changeSet id="20190319150200" author="virtusa">
+	<changeSet id="20190322190900" author="virtusa">
 
 		<createTable tableName="user">
 			<column name="id" type="bigint" startWith="1" autoIncrement="true">
@@ -44,7 +44,7 @@
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="institute_name" type="varchar(100)" />
-			<column name="year" type="date" />
+			<column name="year" type="int(4)" />
 		</createTable>
 		
 		
@@ -53,12 +53,12 @@
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="user_id" type="bigint"></column>
-			<column name="certifcate_id" type="bigint"></column>
+			<column name="certificate_id" type="bigint"></column>
 		</createTable>
 		<addForeignKeyConstraint baseColumnNames="user_id"
 			baseTableName="user_certificate" constraintName="user_certificate_fk"
 			referencedColumnNames="id" referencedTableName="user" />
-		<addForeignKeyConstraint baseColumnNames="certifcate_id"
+		<addForeignKeyConstraint baseColumnNames="certificate_id"
 			baseTableName="user_certificate" constraintName="certificate_user_fk"
 			referencedColumnNames="id" referencedTableName="certificate" />
 			
@@ -116,6 +116,9 @@
 		</createTable>
 		
 		<createTable tableName="user_skill">
+			<column name="id" type="bigint" startWith="1" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
 			<column name="user_id" type="bigint"></column>
 			<column name="skill_id" type="bigint"></column>
 		</createTable>

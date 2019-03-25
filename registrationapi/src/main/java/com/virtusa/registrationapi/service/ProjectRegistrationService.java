@@ -10,9 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.virtusa.registrationapi.domain.Project;
-import com.virtusa.registrationapi.domain.Skill;
 import com.virtusa.registrationapi.domain.User;
+import com.virtusa.registrationapi.domain.UserProject;
 import com.virtusa.registrationapi.repository.ProjectRegistrationRepository;
+import com.virtusa.registrationapi.repository.UserProjectRepository;
 
 @Service
 public class ProjectRegistrationService {
@@ -20,13 +21,15 @@ public class ProjectRegistrationService {
 	@Autowired
 	ProjectRegistrationRepository projectRegistrationRepository;
 	@Autowired
+	UserProjectRepository userProjectRepository;
+	@Autowired
 	private UserRegistrationService service;
 	
 	Logger logger=Logger.getLogger(ProjectRegistrationService.class);
 
-public Project saveProject(Project project,String email) {
+	public Project saveProject(Project project,String email) {
 		
-		logger.debug("service invoked for saving project");
+		logger.debug("service invoked for saving Project");
 		
 		//get User by email
 		User user= service.getuserByEmail(email);
@@ -34,25 +37,32 @@ public Project saveProject(Project project,String email) {
 		logger.debug("got user based on email");
 		logger.debug(user.getEmail());
 		
+		//get all users of Project
 		Set<User> users=new HashSet<User>();
-		logger.debug("got users of project");
-		//add current user object to set of users for project
+		logger.debug("got users of Project");
+		//add current user object to set of users for Project
 		users.add(user);
-		logger.debug("users of project are:");
+		logger.debug("users of Project are:");
 		users.stream().forEach(u->
 		logger.debug(u.getEmail())
 		);
 		
-		//add updated list of users to project
+		//add updated list of users to skill
 		project.setUsers(users);
+		project.getUsers().stream().forEach(u->logger.debug("user of Project->"+u.getEmail()));
 		
-		project.getUsers().stream().forEach(u->logger.debug("user of project->"+u.getEmail()));
+		logger.debug("saving Project having users");
+				
+		project=projectRegistrationRepository.save(project);
 		
-		logger.debug("saving project having users");
+		UserProject userProject= new UserProject();
+		userProject.setProjectId(project.getId());
+		userProject.setUserId(user.getId());
 		
-		project=projectRegistrationRepository.save(project);	
-		service.saveUser(user);
-		return project;	
+		//save user Project
+		userProjectRepository.save(userProject);
+		
+		return project;
 		
 	}
 
