@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.virtusa.registrationconsumer.domain.User;
 
 @Controller
+@RequestMapping(value="/api/user")
 public class RegisterController {
 
 	@RequestMapping(value="/register",method=RequestMethod.GET)
@@ -18,7 +19,7 @@ public class RegisterController {
 		return "register";
 	}
 	
-	@RequestMapping(value="/save",method=RequestMethod.POST)
+	@RequestMapping(value="",method=RequestMethod.POST)
 	@ResponseBody String  savePage(@ModelAttribute("user") User user,Model model){
 		System.out.println(user.getEmail());
 		System.out.println(user.getGender());
@@ -29,5 +30,17 @@ public class RegisterController {
 	String loginPage(Model model){
 		model.addAttribute("loginUser",new User());
 		return "login";
+	}
+	
+	@RequestMapping(value="/profile",method=RequestMethod.GET)
+	 String  addUser(){
+		
+		return "profile";
+	}
+	
+	@RequestMapping(value="/home",method=RequestMethod.GET)
+	 String  home(){
+		
+		return "home";
 	}
 }

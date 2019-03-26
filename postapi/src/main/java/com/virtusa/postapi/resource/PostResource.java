@@ -18,21 +18,21 @@ import com.virtusa.postapi.service.PostService;
 public class PostResource {
 
 	@Autowired
-	PostService postService ;
+	PostService postService;
 
 	@RequestMapping(value = "/api/post/save/{id}", method = RequestMethod.POST)
-	public ResponseEntity<String> savePost(@RequestBody Post post, @PathVariable("id") Long id)
+	public String savePost(@RequestBody Post post, @PathVariable("id") Long id)
 			throws URISyntaxException {
-		
-		ResponseEntity<String> response = ResponseEntity
-				.created(new URI("/api/post/add/" + postService.addPost(post,id).getId())).build();
-		return response;
+		 postService.addPost(post, id);
+		/*ResponseEntity<String> response = ResponseEntity
+				.created(new URI("/api/post/add/" + postService.addPost(post, id).getId())).build();
+		*/
+		 return "done!";
 	}
-	
+
 	@RequestMapping(value = "/api/post/delete/{id}", method = RequestMethod.DELETE)
-	public void deletepost( @PathVariable("id") Long id)
-			throws URISyntaxException {
-		
+	public void deletepost(@PathVariable("id") Long id) throws URISyntaxException {
+
 		postService.deletePost(id);
 	}
 }

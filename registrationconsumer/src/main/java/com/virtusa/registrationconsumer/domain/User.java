@@ -21,7 +21,6 @@ public class User {
 	Long id;
 	
 	String name;
-	/*@Range(min=5,max=40)*/
 	String email;
 	Date dob;
 	Long phone;

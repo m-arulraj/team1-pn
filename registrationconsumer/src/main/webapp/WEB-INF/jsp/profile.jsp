@@ -9,6 +9,7 @@
 <%@ page import="java.io.*,java.util.*, javax.servlet.*"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <title>Insert title here</title>
+
 <style>
 body {font-family: Arial, Helvetica, sans-serif;}
 form {border: 3px solid #f1f1f1;}
@@ -84,7 +85,7 @@ span.psw {
 <div class="content">
 <h2 align="center">Register Form</h2>
 
-<form:form action="adduser" modelAttribute="user" >
+<form:form action="api/user" modelAttribute="user" >
   
 
   <div class="container">

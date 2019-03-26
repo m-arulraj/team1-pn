@@ -23,10 +23,10 @@ public class companyController {
 	@Autowired
 	CompanyService companyService;
 
-	@RequestMapping(value = "/api/company", method = RequestMethod.POST)
+	@RequestMapping(value = "/api/companies", method = RequestMethod.POST)
 	public ResponseEntity<String> saveCompany(@RequestBody Company company) throws URISyntaxException {
 
-		URI uri = new URI("/api/company" + companyService.savecompany(company).getId());
+		URI uri = new URI("/api/companies" + companyService.savecompany(company).getId());
 
 		HttpHeaders header = new HttpHeaders();
 		header.setLocation(uri);
@@ -34,20 +34,20 @@ public class companyController {
 
 	}
 
-	@RequestMapping(value = "/api/company/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/api/getCompanyById/{id}", method = RequestMethod.GET)
 	public Optional<Company> getCompanyData(@PathVariable(value = "id") Long id) {
 		return companyService.getCompanyData(id);
 
 	}
 
-	@RequestMapping(value = "/api/company/deletecompany/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/api/company/deleteCompanyById/{id}", method = RequestMethod.DELETE)
 	public void deleteCompanyData(@PathVariable(value = "id") Long id) {
 
 		companyService.deleteCompanyData(id);
 
 	}
 
-	@RequestMapping(value = "/api/company/updatecompany/{id}/name/{name}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/api/company/updateCompanyById/{id}/updateName/{name}", method = RequestMethod.PUT)
 	public void updateCompany(@PathVariable(value = "id") Long id, @PathVariable(value = "name") String name) {
 
 		companyService.updateCompany(id, name);
