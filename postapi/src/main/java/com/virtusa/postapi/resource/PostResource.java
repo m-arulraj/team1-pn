@@ -2,6 +2,7 @@ package com.virtusa.postapi.resource;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +30,17 @@ public class PostResource {
 		return response;
 	}
 	
+	@RequestMapping(value = "/api/post/all", method = RequestMethod.GET)
+	private List<Post> getAllPost() {
+		// TODO Auto-generated method stub
+
+		List<Post> listPost = postService.getAll();
+		return listPost;
+	}
 	@RequestMapping(value = "/api/post/delete/{id}", method = RequestMethod.DELETE)
 	public void deletepost( @PathVariable("id") Long id)
 			throws URISyntaxException {
-		
+		System.out.println("***************************************");
 		postService.deletePost(id);
 	}
 }
