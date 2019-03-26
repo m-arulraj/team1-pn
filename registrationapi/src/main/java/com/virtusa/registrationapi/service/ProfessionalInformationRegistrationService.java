@@ -11,13 +11,17 @@ import org.springframework.stereotype.Service;
 
 import com.virtusa.registrationapi.domain.ProfessionalInformation;
 import com.virtusa.registrationapi.domain.User;
+import com.virtusa.registrationapi.domain.UserProfessionalInformation;
 import com.virtusa.registrationapi.repository.ProfessionalInformationRegistrationRepository;
+import com.virtusa.registrationapi.repository.UserProfessionalInformationRepository;
 
 @Service
 public class ProfessionalInformationRegistrationService {
 
 	@Autowired
-	ProfessionalInformationRegistrationRepository professionalInformationRepository;
+	private ProfessionalInformationRegistrationRepository professionalInformationRepository;
+	@Autowired
+	private UserProfessionalInformationRepository userProfessionalInformationRepository;
 	@Autowired
 	private UserRegistrationService service;
 	
@@ -51,7 +55,16 @@ public ProfessionalInformation saveProfessionalInformation(ProfessionalInformati
 		
 		logger.debug("saving ProfessionalInformation having users");
 				
-		return professionalInformationRepository.save(professionalInformation);	
+		professionalInformation=professionalInformationRepository.save(professionalInformation);
+		
+		UserProfessionalInformation userProfessionalInformation= new UserProfessionalInformation();
+		userProfessionalInformation.setProfessionalInformationId(professionalInformation.getId());
+		userProfessionalInformation.setUserId(user.getId());
+		
+		//save user ProfessionalInformation
+		userProfessionalInformationRepository.save(userProfessionalInformation);
+		
+		return professionalInformation;	
 		
 	}
 		

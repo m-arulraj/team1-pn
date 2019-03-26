@@ -11,13 +11,19 @@ import org.springframework.stereotype.Service;
 
 import com.virtusa.registrationapi.domain.Skill;
 import com.virtusa.registrationapi.domain.User;
+import com.virtusa.registrationapi.domain.UserSkill;
 import com.virtusa.registrationapi.repository.SkillRegistrationRepository;
+import com.virtusa.registrationapi.repository.UserSkillRepository;
 
 @Service
 public class SkillRegistrationService {
 
 	@Autowired
 	SkillRegistrationRepository skillRegistrationRepository;
+	
+	@Autowired
+	UserSkillRepository userSkillRepository;
+	
 	@Autowired
 	private UserRegistrationService service;
 	
@@ -48,7 +54,16 @@ public class SkillRegistrationService {
 		
 		logger.debug("saving skill having users");
 				
-		return skillRegistrationRepository.save(skill);	
+		skill=skillRegistrationRepository.save(skill);
+		
+		UserSkill userSkill= new UserSkill();
+		userSkill.setSkillId(skill.getId());
+		userSkill.setUserId(user.getId());
+		
+		//save user skill
+		userSkillRepository.save(userSkill);
+		
+		return skill;
 		
 	}
 		

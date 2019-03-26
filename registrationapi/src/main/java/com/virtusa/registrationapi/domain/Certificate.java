@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="certificate")
 public class Certificate {
@@ -25,6 +28,7 @@ public class Certificate {
 	@Column(name="year")
 	private Integer year;
 	
+	@JsonBackReference
 	@ManyToMany(mappedBy="skills")
 	Set<User> users;
 

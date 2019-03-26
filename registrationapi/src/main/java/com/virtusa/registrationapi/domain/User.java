@@ -15,6 +15,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="user")
 public class User {
@@ -44,39 +47,44 @@ public class User {
 	@JoinColumn(name="education_id")
 	Education education;
 	
+	@JsonManagedReference
 	@ManyToMany(cascade = { CascadeType.ALL },fetch=FetchType.EAGER)
 	 @JoinTable(
 		        name = "user_skill", 
 		        joinColumns = { @JoinColumn(name = "user_id") }, 
 		        inverseJoinColumns = { @JoinColumn(name = "skill_id") }
 		    )
+	  @JsonIgnore
 	Set<Skill> skills;
 	
+	@JsonManagedReference
 	@ManyToMany(cascade = { CascadeType.ALL },fetch=FetchType.EAGER)
 	 @JoinTable(
 		        name = "user_project", 
 		        joinColumns = { @JoinColumn(name = "user_id") }, 
 		        inverseJoinColumns = { @JoinColumn(name = "project_id") }
 		    )
-	
-	Set<Certificate> certificates;
+	  @JsonIgnore
+	Set<Project> projects;
 
+	@JsonManagedReference
 	@ManyToMany(cascade = { CascadeType.ALL },fetch=FetchType.EAGER)
 	 @JoinTable(
 		        name = "user_certificate", 
 		        joinColumns = { @JoinColumn(name = "user_id") }, 
 		        inverseJoinColumns = { @JoinColumn(name = "certificate_id") }
 		    )
+	  @JsonIgnore
+	Set<Certificate> certificates;
 	
-	Set<Project> projects;
-	
+	@JsonManagedReference
 	@ManyToMany(cascade = { CascadeType.ALL },fetch=FetchType.EAGER)
 	 @JoinTable(
 		        name = "user_professional_info", 
 		        joinColumns = { @JoinColumn(name = "user_id") }, 
 		        inverseJoinColumns = { @JoinColumn(name = "prof_id") }
 		    )
-	
+	  @JsonIgnore
 	Set<ProfessionalInformation> professionalInformations;
 	
 	public Long getId() {
@@ -169,6 +177,16 @@ public class User {
 		this.skills = skills;
 	}
 
+
+
+	public Set<ProfessionalInformation> getProfessionalInformations() {
+		return professionalInformations;
+	}
+
+	public void setProfessionalInformations(Set<ProfessionalInformation> professionalInformations) {
+		this.professionalInformations = professionalInformations;
+	}
+
 	public Set<Project> getProjects() {
 		return projects;
 	}
@@ -185,11 +203,5 @@ public class User {
 		this.certificates = certificates;
 	}
 
-	public Set<ProfessionalInformation> getProfessionalInformations() {
-		return professionalInformations;
-	}
-
-	public void setProfessionalInformations(Set<ProfessionalInformation> professionalInformations) {
-		this.professionalInformations = professionalInformations;
-	}
+	
 }
