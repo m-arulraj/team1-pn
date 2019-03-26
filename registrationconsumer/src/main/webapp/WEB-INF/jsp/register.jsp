@@ -9,50 +9,6 @@
 <%@ page import="java.io.*,java.util.*, javax.servlet.*"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <title>Insert title here</title>
-<%-- </head>
-<body>
-<h1>Register form</h1>
-	<form:form action="save" modelAttribute="user" >
-		<table>
-			<tbody>
-				<tr>
-					<td>name :</td>
-					<td><form:input path="name" type="text"/></td>
-				</tr>
-				<tr>
-					<td>email-id :</td>
-					<td><form:input path="email" type="text" /></td>
-				</tr>
-				<tr>
-					<td>Date-of-Birth :</td>
-					<td><form:input path="name" type="date" /></td>
-				</tr>
-				<tr>
-					<td>phone number :</td>
-					<td><form:input path="phone" type="number" /></td>
-				</tr>
-				
-				<tr>
-					<td>phone number :</td>
-					<td><form:input path="gender" type="text" /></td>
-				</tr>
-				<tr>
-					<td>country :</td>
-					<td><form:input path="country" type="text" /></td>
-				</tr>
-				<tr>
-					<td>state :</td>
-					<td><form:input path="state" type="text" /></td>
-				</tr>
-				<tr>
-					<td>password :</td>
-					<td><form:input path="password" type="password" /></td>
-				</tr>
-				<tr><td><input type="submit">submit</td></tr>
-			</tbody>
-		</table>
-	</form:form>
-</body> --%>
 <style>
 body {font-family: Arial, Helvetica, sans-serif;}
 form {border: 3px solid #f1f1f1;}
@@ -128,7 +84,7 @@ span.psw {
 <div class="content">
 <h2 align="center">Register Form</h2>
 
-<form:form action="save" modelAttribute="user" >
+<form:form action="adduser" modelAttribute="user" >
   
 
   <div class="container">

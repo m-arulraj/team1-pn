@@ -119,7 +119,7 @@ public class UserRegistrationController {
 		return users;
 	}
 	
-	//getting user based o id 
+	//getting user based on id 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
 	public Optional<User> getUser(@PathVariable(name = "id") Long id) {
 		

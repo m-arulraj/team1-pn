@@ -41,14 +41,14 @@ public class CompanyTest {
 		c.setNoofEmployees(200L);
 
 		String result = mvc
-				.perform(MockMvcRequestBuilders.post("/api/company").contentType(MediaType.APPLICATION_JSON)
+				.perform(MockMvcRequestBuilders.post("/api/companies").contentType(MediaType.APPLICATION_JSON)
 						.content(new Gson().toJson(c)))
 				.andExpect(MockMvcResultMatchers.status().isCreated()).andReturn().getResponse().getHeader("Location")
 				.toString();
 
 		if (result != null) {
 
-			String uri = "/api/company/2";
+			String uri = "/api/getCompanyById/2";
 
 			String response = mvc.perform(MockMvcRequestBuilders.get(uri).contentType(MediaType.APPLICATION_JSON))
 					.andExpect(MockMvcResultMatchers.status().isOk()).andReturn().getResponse().getContentAsString();
@@ -60,7 +60,7 @@ public class CompanyTest {
 	@Test
 	public void deleteTest() throws Exception {
 
-		String deleteuri = "/api/company/deletecompany/7";
+		String deleteuri = "/api/company/deleteCompanyById/8";
 
 		mvc.perform(MockMvcRequestBuilders.delete(deleteuri).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk());
@@ -70,7 +70,7 @@ public class CompanyTest {
 	@Test
 	public void updateTest() throws Exception {
 
-		String updateUri = "/api/company/updatecompany/13/name/polaris";
+		String updateUri = "/api/company/updateCompanyById/13/updateName/polais";
 
 		mvc.perform(MockMvcRequestBuilders.put(updateUri).contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(new Company()))).andExpect(MockMvcResultMatchers.status().isOk());
