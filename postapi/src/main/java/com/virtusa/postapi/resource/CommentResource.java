@@ -24,7 +24,6 @@ public class CommentResource {
 	@RequestMapping(value = "/api/post/comment/add/{postid},{userId}", method = RequestMethod.POST)
 	private ResponseEntity<String> addComment(@RequestBody Comment comment, @PathVariable("postid") Long postId,
 			@PathVariable("userId") Long userId) throws URISyntaxException {
-
 		ResponseEntity<String> responseEntity = ResponseEntity
 				.created(new URI("/api/post/comment/get/" + commentService.addComment(comment, postId, userId).getId()))
 				.build();

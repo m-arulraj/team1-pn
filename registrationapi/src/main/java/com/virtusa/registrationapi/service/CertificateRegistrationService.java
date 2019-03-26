@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.virtusa.registrationapi.domain.Certificate;
-
+import com.virtusa.registrationapi.domain.Skill;
 import com.virtusa.registrationapi.domain.User;
+import com.virtusa.registrationapi.domain.UserCertificate;
 import com.virtusa.registrationapi.repository.CertificateRegistrationRepository;
+import com.virtusa.registrationapi.repository.UserCertificateRepository;
 
 @Service
 public class CertificateRegistrationService {
@@ -20,11 +22,13 @@ public class CertificateRegistrationService {
 	@Autowired
 	CertificateRegistrationRepository certificateRegistrationRepository;
 	@Autowired
+	UserCertificateRepository userCertificateRepository;
+	@Autowired
 	private UserRegistrationService service;
 	
 	static Logger logger=Logger.getLogger( CertificateRegistrationService.class);
 
-	public Certificate saveCertificate(Certificate certificate,String email) {
+public Certificate saveCertificate(Certificate certificate,String email) {
 		
 		logger.debug("service invoked for saving Certificate");
 		
@@ -38,10 +42,8 @@ public class CertificateRegistrationService {
 		logger.debug("got users of Certificate");
 		//add current user object to set of users for Certificate
 		users.add(user);
-		
 		logger.debug("users of Certificate are:");
 		users.stream().forEach(u->
-		
 		logger.debug(u.getEmail())
 		);
 		
@@ -49,9 +51,18 @@ public class CertificateRegistrationService {
 		certificate.setUsers(users);
 		certificate.getUsers().stream().forEach(u->logger.debug("user of Certificate->"+u.getEmail()));
 		
-		logger.debug("saving Certificate having users");
+		logger.debug("saving skill having users");
 				
-		return certificateRegistrationRepository.save(certificate);	
+		certificate=certificateRegistrationRepository.save(certificate);
+		
+		UserCertificate userCertificate= new UserCertificate();
+		userCertificate.setCertificateId(certificate.getId());
+		userCertificate.setUserId(user.getId());
+		
+		//save user skill
+		userCertificateRepository.save(userCertificate);
+		
+		return certificate;
 		
 	}
 		
@@ -66,7 +77,7 @@ public class CertificateRegistrationService {
 		return certificateRegistrationRepository.findAll();
 	}
 	
-	public Optional<Certificate> getCertificateByInstituteName(String instituteName){
+	public List<Optional<Certificate>> getCertificateByInstituteName(String instituteName){
 		logger.debug("service invoked for getting Certificate by name");
 		return certificateRegistrationRepository.findByInstituteName(instituteName);
 	}

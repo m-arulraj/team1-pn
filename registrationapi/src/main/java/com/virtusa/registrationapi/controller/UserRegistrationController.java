@@ -51,7 +51,7 @@ public class UserRegistrationController {
 	//get logger
 	static Logger logger=Logger.getLogger(UserRegistrationController.class);
 
-	@RequestMapping(value = "", method = RequestMethod.POST)
+	@RequestMapping(value = "/user", method = RequestMethod.POST)
 	public ResponseEntity<String> registerUser(@RequestBody User user) throws URISyntaxException {
 		
 		logger.info("regisration started");
@@ -73,6 +73,7 @@ public class UserRegistrationController {
 	}
 	
 	//getting all users
+	@RequestMapping(value="/users", method=RequestMethod.GET)
 	public List<User> getAllUsers(){
 		logger.info("geting users");
 		logger.debug("controller invoked for getting all users");
@@ -83,7 +84,7 @@ public class UserRegistrationController {
 	}
 	
 	//getting user based on email
-	@RequestMapping(value="/userforemail/{email}", method=RequestMethod.GET)
+	@RequestMapping(value="/user/email/{email}", method=RequestMethod.GET)
 	public User getUserByEmail(@PathVariable String email){
 		
 		User user=null;
@@ -102,7 +103,7 @@ public class UserRegistrationController {
 	}
 	
 	//getting user based on name
-	@RequestMapping(value="/usersforname/{name}", method=RequestMethod.GET)
+	@RequestMapping(value="/users/{name}", method=RequestMethod.GET)
 	public List<User> getUserByName(@PathVariable String name){
 		
 		List<User> users=null;
@@ -130,7 +131,7 @@ public class UserRegistrationController {
 	}
 
 	//posting skill data
-	@RequestMapping(value = "/addskill/{email}", method = RequestMethod.POST)
+	@RequestMapping(value = "/skill/email/{email}", method = RequestMethod.POST)
 	public ResponseEntity<String> registerSkill(@RequestBody Skill skill, @PathVariable(name="email") String email) throws URISyntaxException {
 
 		logger.info("registering skills");
@@ -145,7 +146,7 @@ public class UserRegistrationController {
 	}
 	
 	   //posting project data
-		@RequestMapping(value = "/addproject/{email}", method = RequestMethod.POST)
+		@RequestMapping(value = "/project/email/{email}", method = RequestMethod.POST)
 		public ResponseEntity<String> registerProject(@RequestBody Project project, @PathVariable(name="email") String email) throws URISyntaxException {
 
 			logger.info("registering project");
@@ -160,7 +161,7 @@ public class UserRegistrationController {
 		}
 	
 	//getting skill data based on id 
-	@RequestMapping(value="/getskill/{id}",method=RequestMethod.GET)
+	@RequestMapping(value="/skill/{id}",method=RequestMethod.GET)
 	public Optional<Skill> getskill(@PathVariable(name="id") Long skillId){
 		logger.info("getting skill");
 		logger.debug("controller invoked for getting skill by id");
@@ -168,7 +169,7 @@ public class UserRegistrationController {
 	}
 	
 	//getting all skills
-	@RequestMapping(value="/getskills",method=RequestMethod.GET)
+	@RequestMapping(value="/skills",method=RequestMethod.GET)
 	public List<Skill> getskills(){
 
 		logger.info("getting skills");
@@ -177,7 +178,7 @@ public class UserRegistrationController {
 	}
 	
 	//getting skill based on name
-	@RequestMapping(value="/getskillforname/{name}",method=RequestMethod.GET)
+	@RequestMapping(value="/skills/name/{name}",method=RequestMethod.GET)
 	public Optional<Skill> getskill(@PathVariable(name="name") String name){
 
 		logger.info("getting skills");
@@ -186,7 +187,7 @@ public class UserRegistrationController {
 	}
 	
 	//posting ProfessionalInformation data
-		@RequestMapping(value = "/addrofessionalinformation/{email}", method = RequestMethod.POST)
+		@RequestMapping(value = "/professionalinformation/email/{email}", method = RequestMethod.POST)
 		public ResponseEntity<String> registerProfessionalInformation(@RequestBody ProfessionalInformation professionalInformation, @PathVariable(name="email") String email) throws URISyntaxException {
 
 			logger.info("registering ProfessionalInformation");
@@ -201,7 +202,7 @@ public class UserRegistrationController {
 		}
 		
 		//getting ProfessionalInformation data based on id 
-		@RequestMapping(value="/getprofessionalinformation/{id}",method=RequestMethod.GET)
+		@RequestMapping(value="/professionalinformation/{id}",method=RequestMethod.GET)
 		public Optional<ProfessionalInformation> getProfessionalInformation(@PathVariable(name="id") Long professionalInformationId){
 			logger.info("getting ProfessionalInformation");
 			logger.debug("controller invoked for getting ProfessionalInformation by id");
@@ -209,7 +210,7 @@ public class UserRegistrationController {
 		}
 		
 		//getting all ProfessionalInformation
-		@RequestMapping(value="/getprofessionalinformation",method=RequestMethod.GET)
+		@RequestMapping(value="/professionalinformations",method=RequestMethod.GET)
 		public List<ProfessionalInformation> getProfessionalInformations(){
 
 			logger.info("getting ProfessionalInformation");
@@ -218,7 +219,7 @@ public class UserRegistrationController {
 		}
 		
 		//getting ProfessionalInformation based on name
-		@RequestMapping(value="/getprofessionalinformationforcompanyname/{name}",method=RequestMethod.GET)
+		@RequestMapping(value="/professionalinformation/company/{name}",method=RequestMethod.GET)
 		public Optional<ProfessionalInformation> getProfessionalInformations(@PathVariable(name="name") String companyName){
 
 			logger.info("getting ProfessionalInformation");
@@ -227,7 +228,7 @@ public class UserRegistrationController {
 		}
 		
 		//posting Certificate data
-			@RequestMapping(value = "/addcertificate/{email}", method = RequestMethod.POST)
+			@RequestMapping(value = "/certificate/email/{email}", method = RequestMethod.POST)
 			public ResponseEntity<String> registerCertificate(@RequestBody Certificate certificate, @PathVariable(name="email") String email) throws URISyntaxException {
 
 				logger.info("registering Certificate");
@@ -242,7 +243,7 @@ public class UserRegistrationController {
 			}
 			
 			//getting Certificate data based on id 
-			@RequestMapping(value="/getcertificate/{id}",method=RequestMethod.GET)
+			@RequestMapping(value="/certificate/{id}",method=RequestMethod.GET)
 			public Optional<Certificate> getCertificate(@PathVariable(name="id") Long certificateId){
 				logger.info("getting Certificate");
 				logger.debug("controller invoked for getting Certificate by id");
@@ -250,7 +251,7 @@ public class UserRegistrationController {
 			}
 			
 			//getting all Certificate
-			@RequestMapping(value="/getcertificate",method=RequestMethod.GET)
+			@RequestMapping(value="/certificates",method=RequestMethod.GET)
 			public List<Certificate> getCertificates(){
 
 				logger.info("getting Certificate");
@@ -259,8 +260,8 @@ public class UserRegistrationController {
 			}
 			
 			//getting Certificate based on name
-			@RequestMapping(value="/getCertificateforinstitutename/{name}",method=RequestMethod.GET)
-			public Optional<Certificate> getCertificate(@PathVariable(name="name") String instituteName){
+			@RequestMapping(value="/certificate/institute/{name}",method=RequestMethod.GET)
+			public List<Optional<Certificate>> getCertificate(@PathVariable(name="name") String instituteName){
 
 				logger.info("getting Certificate");
 				logger.debug("controller invoked for getting Certificate by name");
