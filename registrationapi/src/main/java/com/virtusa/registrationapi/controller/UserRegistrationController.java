@@ -49,7 +49,7 @@ public class UserRegistrationController {
 
 	Long skillid;
 	//get logger
-	static Logger logger=Logger.getLogger(UserRegistrationController.class);
+	private static Logger logger=Logger.getLogger(UserRegistrationController.class);
 
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
 	public ResponseEntity<String> registerUser(@RequestBody User user) throws URISyntaxException {
@@ -92,7 +92,7 @@ public class UserRegistrationController {
 		logger.debug("controller invoked for getting user");
 		
 		//get user object from service
-		user=service.getuserByEmail(email);
+		user=service.getUserByEmail(email);
 		if(user!=null){
 			logger.debug("got user obect");
 		}else{
@@ -120,14 +120,21 @@ public class UserRegistrationController {
 		return users;
 	}
 	
-	//getting user based o id 
+	//getting user based on id 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
 	public Optional<User> getUser(@PathVariable(name = "id") Long id) {
-		
 		logger.info("getting user");
 		logger.debug("controller invoked for getting user by id");
 		return service.getUser(id);
 
+	}
+	
+	//update user
+	@RequestMapping(value="/user/{email}",method=RequestMethod.PUT)
+	public User updateUser(@RequestBody User user,@PathVariable(name="email") String email){
+		logger.info("updating user");
+		logger.debug("controller invoked for updating user");
+		return service.updateUser(user,email);
 	}
 
 	//posting skill data
@@ -145,6 +152,40 @@ public class UserRegistrationController {
 		return response;
 	}
 	
+	//getting skill data based on id 
+		@RequestMapping(value="/skill/{id}",method=RequestMethod.GET)
+		public Optional<Skill> getskill(@PathVariable(name="id") Long skillId){
+			logger.info("getting skill");
+			logger.debug("controller invoked for getting skill by id");
+			return skillRegistrationService.getSkill(skillId);
+		}
+		
+		//getting all skills
+		@RequestMapping(value="/skills",method=RequestMethod.GET)
+		public List<Skill> getskills(){
+
+			logger.info("getting skills");
+			logger.debug("controller invoked for getting all skills");
+			return skillRegistrationService.getSkills();
+		}
+		
+		//getting skill based on name
+		@RequestMapping(value="/skill/name/{name}",method=RequestMethod.GET)
+		public Skill getskill(@PathVariable(name="name") String name){
+
+			logger.info("getting skill");
+			logger.debug("controller invoked for getting sill by name");
+			return skillRegistrationService.getSkillByName(name);
+		}
+	
+	//delete skill
+	@RequestMapping(value="/skill/{email}",method=RequestMethod.DELETE)
+	public int deleteSkill(@RequestBody Skill skill,@PathVariable(name="email") String email){
+		logger.info("deleting skill");
+		logger.debug("controller invoked for deleting skill");
+		return skillRegistrationService.deleteSkill(skill,email);
+	}
+	
 	   //posting project data
 		@RequestMapping(value = "/project/email/{email}", method = RequestMethod.POST)
 		public ResponseEntity<String> registerProject(@RequestBody Project project, @PathVariable(name="email") String email) throws URISyntaxException {
@@ -159,32 +200,16 @@ public class UserRegistrationController {
 			logger.debug("returnning response");
 			return response;
 		}
+		
+		//delete Project
+		@RequestMapping(value="/project/{email}",method=RequestMethod.DELETE)
+		public void deleteProject(@RequestBody Project project,@PathVariable(name="email") String email){
+			logger.info("deleting project");
+			logger.debug("controller invoked for deleting Project");
+			projectRegistrationService.deleteProject(project,email);
+		}
 	
-	//getting skill data based on id 
-	@RequestMapping(value="/skill/{id}",method=RequestMethod.GET)
-	public Optional<Skill> getskill(@PathVariable(name="id") Long skillId){
-		logger.info("getting skill");
-		logger.debug("controller invoked for getting skill by id");
-		return skillRegistrationService.getSkill(skillId);
-	}
 	
-	//getting all skills
-	@RequestMapping(value="/skills",method=RequestMethod.GET)
-	public List<Skill> getskills(){
-
-		logger.info("getting skills");
-		logger.debug("controller invoked for getting all skills");
-		return skillRegistrationService.getSkills();
-	}
-	
-	//getting skill based on name
-	@RequestMapping(value="/skills/name/{name}",method=RequestMethod.GET)
-	public Optional<Skill> getskill(@PathVariable(name="name") String name){
-
-		logger.info("getting skills");
-		logger.debug("controller invoked for getting sill by name");
-		return skillRegistrationService.getSkillByName(name);
-	}
 	
 	//posting ProfessionalInformation data
 		@RequestMapping(value = "/professionalinformation/email/{email}", method = RequestMethod.POST)
@@ -227,6 +252,14 @@ public class UserRegistrationController {
 			return professionalInformationRegistrationService.getProfessionalInformationByInstituteName(companyName);
 		}
 		
+		//delete ProfessionalInformation
+		@RequestMapping(value="/professionalinformation/{email}",method=RequestMethod.DELETE)
+		public void deleteProfessionalInformation(@RequestBody ProfessionalInformation professionalInformation,@PathVariable(name="email") String email){
+			logger.info("deleting ProfessionalInformation");
+			logger.debug("controller invoked for deleting ProfessionalInformation");
+			professionalInformationRegistrationService.deleteProfessionalInformation(professionalInformation,email);
+		}
+		
 		//posting Certificate data
 			@RequestMapping(value = "/certificate/email/{email}", method = RequestMethod.POST)
 			public ResponseEntity<String> registerCertificate(@RequestBody Certificate certificate, @PathVariable(name="email") String email) throws URISyntaxException {
@@ -261,10 +294,18 @@ public class UserRegistrationController {
 			
 			//getting Certificate based on name
 			@RequestMapping(value="/certificate/institute/{name}",method=RequestMethod.GET)
-			public List<Optional<Certificate>> getCertificate(@PathVariable(name="name") String instituteName){
+			public List<Certificate> getCertificate(@PathVariable(name="name") String instituteName){
 
 				logger.info("getting Certificate");
 				logger.debug("controller invoked for getting Certificate by name");
 				return certificateRegistrationService.getCertificateByInstituteName(instituteName);
+			}
+			
+			//delete Certificate
+			@RequestMapping(value="/certificate/{email}",method=RequestMethod.DELETE)
+			public void deleteCertificate(@RequestBody Certificate certificate,@PathVariable(name="email") String email){
+				logger.info("deleting Certificate");
+				logger.debug("controller invoked for deleting Certificate");
+				certificateRegistrationService.deleteCertificate(certificate,email);
 			}
 }

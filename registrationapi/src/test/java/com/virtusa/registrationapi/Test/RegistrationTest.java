@@ -42,7 +42,7 @@ public class RegistrationTest {
 		user.setState("up");
 		user.setPassword("mukul");
 
-		String uri = "/api/user/registration";
+		String uri = "/api/user/registration/user";
 		String result = mvc
 				.perform(MockMvcRequestBuilders.post(uri).contentType(MediaType.APPLICATION_JSON)
 						.content(new Gson().toJson(user)))

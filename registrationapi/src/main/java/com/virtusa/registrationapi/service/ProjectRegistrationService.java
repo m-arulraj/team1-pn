@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.virtusa.registrationapi.domain.Project;
+import com.virtusa.registrationapi.domain.Skill;
 import com.virtusa.registrationapi.domain.User;
 import com.virtusa.registrationapi.domain.UserProject;
 import com.virtusa.registrationapi.repository.ProjectRegistrationRepository;
@@ -25,6 +26,12 @@ public class ProjectRegistrationService {
 	@Autowired
 	private UserRegistrationService service;
 	
+	public User user;
+	public UserProject userProject;
+	public Optional<Project> optProject;
+	public List<Project> projects;
+	public Project project;
+	
 	Logger logger=Logger.getLogger(ProjectRegistrationService.class);
 
 	public Project saveProject(Project project,String email) {
@@ -32,35 +39,13 @@ public class ProjectRegistrationService {
 		logger.debug("service invoked for saving Project");
 		
 		//get User by email
-		User user= service.getuserByEmail(email);
+		User user= service.getUserByEmail(email);
 		
 		logger.debug("got user based on email");
 		logger.debug(user.getEmail());
 		
-		//get all users of Project
-		Set<User> users=new HashSet<User>();
-		logger.debug("got users of Project");
-		//add current user object to set of users for Project
-		users.add(user);
-		logger.debug("users of Project are:");
-		users.stream().forEach(u->
-		logger.debug(u.getEmail())
-		);
-		
-		//add updated list of users to skill
-		project.setUsers(users);
-		project.getUsers().stream().forEach(u->logger.debug("user of Project->"+u.getEmail()));
-		
-		logger.debug("saving Project having users");
-				
-		project=projectRegistrationRepository.save(project);
-		
-		UserProject userProject= new UserProject();
-		userProject.setProjectId(project.getId());
-		userProject.setUserId(user.getId());
-		
-		//save user Project
-		userProjectRepository.save(userProject);
+		user.getProjects().add(project);
+		service.saveUser(user);
 		
 		return project;
 		
@@ -79,6 +64,29 @@ public class ProjectRegistrationService {
 	public Optional<Project> getProjectByType(String type){
 		logger.debug("service invoked for getting project");
 		return projectRegistrationRepository.findByType(type);
+	}
+	public void deleteProject(Project project,String email){
+		
+		logger.debug("service executed for deleting project");
+		
+		this.user=service.getUserByEmail(email);
+		projects=projectRegistrationRepository.findByTypeAndRole(project.getType(), project.getRole());
+		
+		projects.stream().forEach(pro->{
+			this.userProject=userProjectRepository.findByUserIdAndProjectId(this.user.getId(),pro.getId());
+			
+			logger.debug(userProject);
+			this.optProject=projectRegistrationRepository.findById(pro.getId());
+			logger.debug(optProject);
+			if(userProject!=null){
+				if(optProject.isPresent()){
+					this.project=optProject.get();
+				}
+			}
+			userProjectRepository.delete(userProject);
+			projectRegistrationRepository.delete(this.project);
+		});
+		
 	}
 
 }
