@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.virtusa.registrationapi.domain.Certificate;
+import com.virtusa.registrationapi.domain.Education;
 import com.virtusa.registrationapi.domain.ProfessionalInformation;
 import com.virtusa.registrationapi.domain.Project;
 import com.virtusa.registrationapi.domain.Skill;
 import com.virtusa.registrationapi.domain.User;
 import com.virtusa.registrationapi.service.CertificateRegistrationService;
+import com.virtusa.registrationapi.service.EducationRegistrationService;
 import com.virtusa.registrationapi.service.ProfessionalInformationRegistrationService;
 import com.virtusa.registrationapi.service.ProjectRegistrationService;
 import com.virtusa.registrationapi.service.SkillRegistrationService;
@@ -32,6 +34,9 @@ public class UserRegistrationController {
 
 	@Autowired
 	private UserRegistrationService service;
+	
+	@Autowired
+	private EducationRegistrationService educationRegistrationService;
 
 	@Autowired
 	private SkillRegistrationService skillRegistrationService;
@@ -136,7 +141,40 @@ public class UserRegistrationController {
 		logger.debug("controller invoked for updating user");
 		return service.updateUser(user,email);
 	}
+	
+	//save education details of user
+	@RequestMapping(value = "/education/email/{email}", method = RequestMethod.POST)
+	public ResponseEntity<String> saveEducation(@RequestBody Education education, @PathVariable(name="email") String email)throws URISyntaxException{
+		
+		logger.info("saving educational information of user");
+		logger.debug("controller invoked for saving education");
+		logger.debug(education);
+		logger.debug("highschool-->"+education.getHighschool());
+		
+		ResponseEntity<String> response = ResponseEntity
+				.created(new URI("/api/user/registration/" +educationRegistrationService.saveEducation(education,email))).build();
+		
+		return response;
+		 
+	}
+	
+		//getting education based on user 
+		@RequestMapping(value = "/education/{email}", method = RequestMethod.GET)
+		public Education getEducation(@PathVariable(name = "email") String email) {
+			logger.info("getting education");
+			logger.debug("controller invoked for getting education by user mail");
+			return educationRegistrationService.getEducation(email);
 
+		}
+		
+		//delete education details of user
+		@RequestMapping(value="/education/{email}",method=RequestMethod.DELETE)
+		public void deleteEducation(@PathVariable(name="email") String email){
+			logger.info("deleting education detials pf user");
+			logger.debug("controller invoked for deleting education details for user");
+			educationRegistrationService.deleteEducation(email);
+		}
+		
 	//posting skill data
 	@RequestMapping(value = "/skill/email/{email}", method = RequestMethod.POST)
 	public ResponseEntity<String> registerSkill(@RequestBody Skill skill, @PathVariable(name="email") String email) throws URISyntaxException {

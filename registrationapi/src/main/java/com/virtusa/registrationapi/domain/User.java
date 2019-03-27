@@ -43,9 +43,10 @@ public class User {
 	@Column(name="password")
 	String password;
 
-	@OneToOne()
-	@JoinColumn(name="education_id")
-	Education education;
+	
+	
+	@OneToOne(mappedBy="user", cascade=CascadeType.ALL)
+	private Education education;
 	
 	@JsonManagedReference
 	@ManyToMany(cascade = { CascadeType.ALL },fetch=FetchType.EAGER)
