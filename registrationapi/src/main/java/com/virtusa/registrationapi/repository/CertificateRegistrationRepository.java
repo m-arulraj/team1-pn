@@ -11,5 +11,6 @@ import com.virtusa.registrationapi.domain.Certificate;
 @Repository
 public interface CertificateRegistrationRepository  extends JpaRepository<Certificate, Long> {
 
-	public List<Optional<Certificate>> findByInstituteName(String name);
+	public List<Certificate> findByInstituteName(String name);
+	public Optional<Certificate> findById(Long id);
 }

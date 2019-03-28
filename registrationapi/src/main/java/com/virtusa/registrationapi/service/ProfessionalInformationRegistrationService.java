@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.virtusa.registrationapi.domain.ProfessionalInformation;
+import com.virtusa.registrationapi.domain.Skill;
 import com.virtusa.registrationapi.domain.User;
 import com.virtusa.registrationapi.domain.UserProfessionalInformation;
 import com.virtusa.registrationapi.repository.ProfessionalInformationRegistrationRepository;
@@ -25,7 +26,13 @@ public class ProfessionalInformationRegistrationService {
 	@Autowired
 	private UserRegistrationService service;
 	
-	static Logger logger=Logger.getLogger(ProfessionalInformationRegistrationService.class);
+	private  User user;
+	private List<ProfessionalInformation> professionalInformations;
+	private Optional<ProfessionalInformation> optProfessionalInformation;
+	private UserProfessionalInformation userProfessionalInformation;
+	private ProfessionalInformation professionalInformation;
+	
+	private static Logger logger=Logger.getLogger(ProfessionalInformationRegistrationService.class);
 	
 	
 public ProfessionalInformation saveProfessionalInformation(ProfessionalInformation professionalInformation,String email) {
@@ -33,36 +40,12 @@ public ProfessionalInformation saveProfessionalInformation(ProfessionalInformati
 		logger.debug("service invoked for saving ProfessionalInformation");
 		
 		//get User by email
-		User user= service.getuserByEmail(email);
+		User user= service.getUserByEmail(email);
 		
 		logger.debug("got user based on email");
 		
-		//get all users of ProfessionalInformation
-		Set<User> users=new HashSet<User>();
-		logger.debug("got users of ProfessionalInformation");
-		//add current user object to set of users for ProfessionalInformation
-		users.add(user);
-		
-		logger.debug("users of ProfessionalInformation are:");
-		users.stream().forEach(u->
-		
-		logger.debug(u.getEmail())
-		);
-		
-		//add updated list of users to ProfessionalInformation
-		professionalInformation.setUsers(users);
-		professionalInformation.getUsers().stream().forEach(u->logger.debug("user of ProfessionalInformation->"+u.getEmail()));
-		
-		logger.debug("saving ProfessionalInformation having users");
-				
-		professionalInformation=professionalInformationRepository.save(professionalInformation);
-		
-		UserProfessionalInformation userProfessionalInformation= new UserProfessionalInformation();
-		userProfessionalInformation.setProfessionalInformationId(professionalInformation.getId());
-		userProfessionalInformation.setUserId(user.getId());
-		
-		//save user ProfessionalInformation
-		userProfessionalInformationRepository.save(userProfessionalInformation);
+		user.getProfessionalInformations().add(professionalInformation);
+		service.saveUser(user);
 		
 		return professionalInformation;	
 		
@@ -83,4 +66,28 @@ public ProfessionalInformation saveProfessionalInformation(ProfessionalInformati
 		logger.debug("service invoked for getting ProfessionalInformation by name");
 		return professionalInformationRepository.findByCompanyName(companyName);
 	}
+	
+	public void deleteProfessionalInformation(ProfessionalInformation professionalInformation,String email){
+logger.debug("service executed for deleting project");
+		
+		this.user=service.getUserByEmail(email);
+		professionalInformations=professionalInformationRepository.findByCompanyNameAndExperience(professionalInformation.getCompanyName(), professionalInformation.getExperience());
+		
+		professionalInformations.stream().forEach(pro->{
+			this.userProfessionalInformation=userProfessionalInformationRepository.findByUserIdAndProfessionalInformationId(this.user.getId(),pro.getId());
+			
+			logger.debug(userProfessionalInformation);
+			this.optProfessionalInformation=professionalInformationRepository.findById(pro.getId());
+			logger.debug(optProfessionalInformation);
+			if(userProfessionalInformation!=null){
+				if(optProfessionalInformation.isPresent()){
+					this.professionalInformation=optProfessionalInformation.get();
+				}
+			}
+			userProfessionalInformationRepository.delete(userProfessionalInformation);
+			professionalInformationRepository.delete(this.professionalInformation);
+		});
+		
+	}
+	
 }

@@ -1,9 +1,7 @@
 package com.virtusa.registrationapi.service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +25,9 @@ public class SkillRegistrationService {
 	@Autowired
 	private UserRegistrationService service;
 	
+	public User user;
+	public Skill skill;
+	
 	static Logger logger=Logger.getLogger( SkillRegistrationService.class);
 
 	public Skill saveSkill(Skill skill,String email) {
@@ -34,43 +35,30 @@ public class SkillRegistrationService {
 		logger.debug("service invoked for saving skill");
 		
 		//get User by email
-		User user= service.getuserByEmail(email);
+		User user= service.getUserByEmail(email);
 		
 		logger.debug("got user based on email");
+		this.skill=skillRegistrationRepository.findByName(skill.getName());
 		
-		//get all users of skill
-		Set<User> users=new HashSet<User>();
-		logger.debug("got users of skill");
-		//add current user object to set of users for skill
-		users.add(user);
-		logger.debug("users of skill are:");
-		users.stream().forEach(u->
-		logger.debug(u.getEmail())
-		);
-		
-		//add updated list of users to skill
-		skill.setUsers(users);
-		skill.getUsers().stream().forEach(u->logger.debug("user of skill->"+u.getEmail()));
-		
-		logger.debug("saving skill having users");
-				
-		skill=skillRegistrationRepository.save(skill);
-		
-		UserSkill userSkill= new UserSkill();
-		userSkill.setSkillId(skill.getId());
-		userSkill.setUserId(user.getId());
-		
-		//save user skill
-		userSkillRepository.save(userSkill);
-		
-		return skill;
-		
+		if(this.skill!=null){
+			logger.debug("got existing skill object");
+			user.getSkills().add(this.skill);
+			this.skill.getUsers().add(user);
+			
+			service.saveUser(user);
+			return this.skill;
+		}else{
+			logger.debug("did not get existing skill object");
+			this.skill= new Skill();
+			logger.debug("input name for skill->"+skill.getName());
+			this.skill.setName(skill.getName());
+			user.getSkills().add(this.skill);
+			//this.skill.getUsers().add(user);
+			
+			service.saveUser(user);
+			return this.skill;
+		}
 	}
-		
-	/*public Skill saveskill(Skill skill) {
-		logger.debug("service invoked for saving skill");
-		return skillRegistrationRepository.save(skill);
-	}*/
 
 	public Optional<Skill> getSkill(Long skillid) {
 		logger.debug("service invoked for getting skill by id");
@@ -82,9 +70,26 @@ public class SkillRegistrationService {
 		return skillRegistrationRepository.findAll();
 	}
 	
-	public Optional<Skill> getSkillByName(String name){
+	public Skill getSkillByName(String name){
 		logger.debug("service invoked for getting skills by name");
 		return skillRegistrationRepository.findByName(name);
 	}
-
+	
+	public int deleteSkill(Skill skill,String email){
+		this.skill=getSkillByName(skill.getName());
+		this.user=service.getUserByEmail(email);
+		
+		this.user.getSkills().stream().forEach(sk->{
+		if(sk.getName().equals(this.skill.getName())){
+			
+			UserSkill userSkill=userSkillRepository.findByUserIdAndSkillId(this.user.getId(), this.skill.getId());
+			userSkillRepository.delete(userSkill);
+		}
+		});
+		if(this.user.getSkills().contains(this.skill)){
+			return 0;
+		}else{
+			return 1;
+		}
+	}
 }

@@ -1,16 +1,14 @@
 package com.virtusa.registrationapi.service;
 
-import java.util.HashSet;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.virtusa.registrationapi.domain.Certificate;
-import com.virtusa.registrationapi.domain.Skill;
 import com.virtusa.registrationapi.domain.User;
 import com.virtusa.registrationapi.domain.UserCertificate;
 import com.virtusa.registrationapi.repository.CertificateRegistrationRepository;
@@ -26,6 +24,12 @@ public class CertificateRegistrationService {
 	@Autowired
 	private UserRegistrationService service;
 	
+	public User user;
+	List<Certificate> certificates;
+	UserCertificate userCertificate;
+	Optional<Certificate> optcertificate;
+	Certificate certificate;
+	
 	static Logger logger=Logger.getLogger( CertificateRegistrationService.class);
 
 public Certificate saveCertificate(Certificate certificate,String email) {
@@ -33,34 +37,12 @@ public Certificate saveCertificate(Certificate certificate,String email) {
 		logger.debug("service invoked for saving Certificate");
 		
 		//get User by email
-		User user= service.getuserByEmail(email);
+		User user= service.getUserByEmail(email);
 		
 		logger.debug("got user based on email");
 		
-		//get all users of Certificate
-		Set<User> users=new HashSet<User>();
-		logger.debug("got users of Certificate");
-		//add current user object to set of users for Certificate
-		users.add(user);
-		logger.debug("users of Certificate are:");
-		users.stream().forEach(u->
-		logger.debug(u.getEmail())
-		);
-		
-		//add updated list of users to Certificate
-		certificate.setUsers(users);
-		certificate.getUsers().stream().forEach(u->logger.debug("user of Certificate->"+u.getEmail()));
-		
-		logger.debug("saving skill having users");
-				
-		certificate=certificateRegistrationRepository.save(certificate);
-		
-		UserCertificate userCertificate= new UserCertificate();
-		userCertificate.setCertificateId(certificate.getId());
-		userCertificate.setUserId(user.getId());
-		
-		//save user skill
-		userCertificateRepository.save(userCertificate);
+		user.getCertificates().add(certificate);
+		service.saveUser(user);
 		
 		return certificate;
 		
@@ -77,8 +59,28 @@ public Certificate saveCertificate(Certificate certificate,String email) {
 		return certificateRegistrationRepository.findAll();
 	}
 	
-	public List<Optional<Certificate>> getCertificateByInstituteName(String instituteName){
+	public List<Certificate> getCertificateByInstituteName(String instituteName){
 		logger.debug("service invoked for getting Certificate by name");
 		return certificateRegistrationRepository.findByInstituteName(instituteName);
+	}
+	
+	public void deleteCertificate(Certificate certificate,String email){
+		logger.debug("service executed for deleting certificate");
+		this.user=service.getUserByEmail(email);
+		this.certificates=certificateRegistrationRepository.findByInstituteName(certificate.getInstituteName());
+		
+		certificates.stream().forEach(cert->{
+			this.userCertificate=userCertificateRepository.findByUserIdAndCertificateId(this.user.getId(), cert.getId());
+			logger.debug(userCertificate);
+			this.optcertificate=certificateRegistrationRepository.findById(cert.getId());
+			logger.debug(optcertificate);
+			if(userCertificate!=null){
+				if(optcertificate.isPresent()){
+					this.certificate=optcertificate.get();
+				}
+			}
+			userCertificateRepository.delete(userCertificate);
+			certificateRegistrationRepository.delete(this.certificate);
+		});
 	}
 }

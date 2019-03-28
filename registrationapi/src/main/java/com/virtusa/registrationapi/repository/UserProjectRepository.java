@@ -8,4 +8,5 @@ import com.virtusa.registrationapi.domain.UserProject;
 @Repository
 public interface UserProjectRepository extends JpaRepository<UserProject, Long> {
 
+	public UserProject findByUserIdAndProjectId(Long userId,Long projectId);
 }

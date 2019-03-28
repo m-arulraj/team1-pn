@@ -32,7 +32,7 @@ public class UserRegistrationService {
 
 	
 	//get user based on email
-	public User getuserByEmail(String email) {	
+	public User getUserByEmail(String email) {	
 		logger.debug("service invoked for get user by email");
 		return repository.findByEmail(email);
 	}
@@ -56,6 +56,23 @@ public class UserRegistrationService {
 		List<User> users=null;
 		users=repository.findAll();
 		return users;
+	}
+	
+	//update user object.
+	public User updateUser(User user,String email){
+		logger.debug("service invoked for updating existing user");
+		this.user=getUserByEmail(email);
+		this.user.setGender(user.getGender());
+		this.user.setDob(user.getDob());
+		this.user.setName(user.getName());
+		this.user.setPassword(user.getPassword());
+		this.user.setPhone(user.getPhone());
+		this.user.setState(user.getState());
+		this.user.setCountry(user.getCountry());
+		
+		//save updated user
+		this.user =saveUser(this.user);
+		return this.user;
 	}
 	
 }
