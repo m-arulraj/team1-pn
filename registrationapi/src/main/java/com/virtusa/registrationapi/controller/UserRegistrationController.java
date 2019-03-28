@@ -45,9 +45,9 @@ public class UserRegistrationController {
 	@Autowired
 	private ProfessionalInformationRegistrationService professionalInformationRegistrationService;
 	
-	Long userid;
+	//Long userid;
 
-	Long skillid;
+	//Long skillid;
 	//get logger
 	static Logger logger=Logger.getLogger(UserRegistrationController.class);
 

@@ -1,11 +1,11 @@
 package com.virtusa.registrationconsumer.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -34,7 +34,7 @@ public class PostServiceImp implements  PostService {
 	     /* restTemplate.exchange(
 	    		  EndpointConstant.POST_SERVICE_URI+userId, HttpMethod.POST, entity, String.class);*/
 		
-	     restTemplate.postForObject(EndpointConstant.POST_SERVICE_URI+userId, post, String.class);
+	     restTemplate.postForObject(EndpointConstant.POST_SERVICE_URI+""+userId, post, String.class);
 	     /*putForObject(EndpointConstant.POST_SERVICE_URI+userId,HttpMethod.POST,entity);*/
 		
 		//restTemplate.exchange(EndpointConstant.POST_SERVICE_URI+userId,HttpMethod.POST,entity,String.class);
@@ -48,6 +48,17 @@ public class PostServiceImp implements  PostService {
 		
 		restTemplate.delete(EndpointConstant.POST_SERVICE_URI, id);
 		
+	}
+
+
+
+
+	@Override
+	public List<Post> getAllPosts() {
+		ResponseEntity<List<Post>> response = restTemplate.exchange(EndpointConstant.POST_SERVICE_URI,
+				HttpMethod.GET, null, new ParameterizedTypeReference<List<Post>>() {
+				});
+		return response.getBody();
 	}
 
 }

@@ -23,7 +23,7 @@ public class RegisterServiceImp implements RegisterService {
 		
 		
 
-		ResponseEntity<String> response = restTemplate.postForEntity(EndpointConstant.REGISTER_SERVICE_URI, user, String.class);
+		 restTemplate.postForObject(EndpointConstant.REGISTER_SERVICE_URI+"user/", user, String.class);
 		 
 	}
 

@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.virtusa.postapi.domain.Comment;
 import com.virtusa.postapi.domain.Post;
 import com.virtusa.postapi.domain.repository.PostRepository;
 
@@ -27,6 +28,11 @@ public class PostService {
 	}
 
 	public List<Post> getAll() {
+		
+		return postRepository.findAll();
+	}
+
+	public List<Post> getAllPosts() {
 		
 		return postRepository.findAll();
 	}

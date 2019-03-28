@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.virtusa.registrationconsumer.domain.User;
 
 @Controller
-@RequestMapping(value="/api/user")
+@RequestMapping(value="/api/useroopo")
 public class RegisterController {
 
 	@RequestMapping(value="/register",method=RequestMethod.GET)

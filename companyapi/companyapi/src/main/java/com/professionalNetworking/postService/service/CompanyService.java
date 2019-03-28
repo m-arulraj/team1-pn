@@ -1,11 +1,11 @@
 package com.professionalNetworking.postService.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.professionalNetworking.postService.Repository.CompanyRepository;
@@ -38,6 +38,11 @@ public class CompanyService {
 	public void updateCompany(Long id,String name){
 		
 		companyRepository.updateCompany(id,name);
+	}
+
+	public List<Company> getAllCompanies() {
+		
+		return companyRepository.findAll();
 	}
 
 }

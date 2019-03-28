@@ -1,5 +1,7 @@
 package com.virtusa.registrationconsumer.resource;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,24 +13,29 @@ import com.virtusa.registrationconsumer.domain.Post;
 import com.virtusa.registrationconsumer.service.PostService;
 
 @Controller
+@RequestMapping(value = "/api/post")
 public class PostResource {
 
 	@Autowired
 	PostService postService;
 
-	@RequestMapping(value = "/api/addpost/{userid}", method = RequestMethod.POST)
-	public String addPost(@ModelAttribute("post") Post post, @PathVariable(name = "userid") Long userId) {
+	@RequestMapping(value = "/{userId}", method = RequestMethod.POST)
+	public String addPost(@ModelAttribute("post") Post post, @PathVariable(name = "userId") Long userId) {
 
 		
-		postService.addPost(post, userId);
 		return "Home";
 
 	}
 
-	@RequestMapping(value = "/api/removepost/{id}", method = RequestMethod.DELETE)
-	public void deletePost(@PathVariable(name = "id") Long id) {
+	@RequestMapping(value = "/{postId}", method = RequestMethod.DELETE)
+	public void deletePost(@PathVariable(name = "postId") Long id) {
 
 		postService.deletePost(id);
 	}
 
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public List<Post> getAllPost() {
+
+		return postService.getAllPosts();
+	}
 }

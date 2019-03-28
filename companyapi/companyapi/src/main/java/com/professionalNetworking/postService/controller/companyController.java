@@ -2,6 +2,7 @@ package com.professionalNetworking.postService.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,10 @@ public class companyController {
 	@RequestMapping(value = "/api/companies", method = RequestMethod.POST)
 	public ResponseEntity<String> saveCompany(@RequestBody Company company) throws URISyntaxException {
 
-		URI uri = new URI("/api/companies" + companyService.savecompany(company).getId());
+		System.out.println(company.getName());
+		Company companyObject = companyService.savecompany(company);
+		System.out.println(companyObject.getAddress());
+		URI uri = new URI("/api/companies/" + companyObject.getId());
 
 		HttpHeaders header = new HttpHeaders();
 		header.setLocation(uri);
@@ -52,4 +56,12 @@ public class companyController {
 
 		companyService.updateCompany(id, name);
 	}
+
+	@RequestMapping(value = "/api/companies/all", method = RequestMethod.GET)
+	public List<Company> allCompanies() {
+
+		return companyService.getAllCompanies();
+
+	}
+
 }
