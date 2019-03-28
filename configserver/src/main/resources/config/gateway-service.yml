@@ -20,11 +20,15 @@ spring:
       - id: post-service
         uri: lb://post-service
         predicates:
-        - Path=/api/post/**
+        - Path=/api/post/**,/api/post/comment/**
        
       - id: company-service
         uri: lb://company-service
         predicates:
         - Path=/api/company/**
         
+      - id: register-user-service
+        uri: lb://register-user-service
+        predicates:
+        - Path=/api/user/registration/**
       
