@@ -11,8 +11,8 @@ public class RegistrationConsumerApplication {
 	@Bean
 	public RestTemplate getRestTemplate() {
 
-		return new RestTemplate();
-	
+		RestTemplate restTemplate = new RestTemplate();
+		return restTemplate;
 	}
 
 	public static void main(String[] args) {

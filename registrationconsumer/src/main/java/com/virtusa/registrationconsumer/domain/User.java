@@ -2,24 +2,13 @@ package com.virtusa.registrationconsumer.domain;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-import org.hibernate.validator.constraints.Range;
-import org.springframework.lang.NonNull;
-
-
-
-@Entity
 public class User {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	Long id;
 	
+	Long id;
+
 	String name;
 	String email;
 	Date dob;
@@ -28,6 +17,7 @@ public class User {
 	String country;
 	String state;
 	String password;
+	String username;
 
 	@OneToOne
 	Education education_id;
@@ -110,6 +100,14 @@ public class User {
 
 	public void setEducation_id(Education education_id) {
 		this.education_id = education_id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 }

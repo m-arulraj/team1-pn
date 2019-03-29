@@ -34,7 +34,7 @@ public class PostServiceImp implements  PostService {
 	     /* restTemplate.exchange(
 	    		  EndpointConstant.POST_SERVICE_URI+userId, HttpMethod.POST, entity, String.class);*/
 		
-	     restTemplate.postForObject(EndpointConstant.POST_SERVICE_URI+""+userId, post, String.class);
+	     restTemplate.postForObject(EndpointConstant.POST_SERVICE_URI+userId, post, String.class);
 	     /*putForObject(EndpointConstant.POST_SERVICE_URI+userId,HttpMethod.POST,entity);*/
 		
 		//restTemplate.exchange(EndpointConstant.POST_SERVICE_URI+userId,HttpMethod.POST,entity,String.class);
@@ -54,11 +54,12 @@ public class PostServiceImp implements  PostService {
 
 
 	@Override
-	public List<Post> getAllPosts() {
+	public List<Post> getAllpost() {
 		ResponseEntity<List<Post>> response = restTemplate.exchange(EndpointConstant.POST_SERVICE_URI,
 				HttpMethod.GET, null, new ParameterizedTypeReference<List<Post>>() {
 				});
 		return response.getBody();
+		
 	}
 
 }

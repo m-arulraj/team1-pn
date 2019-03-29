@@ -17,14 +17,22 @@ spring:
         locator:
           enabled: true
       routes:
+      - id: register-user-service
+        uri: lb://register-user-service
+        predicates:
+        - Path=/api/user/registration/**
+        
       - id: post-service
         uri: lb://post-service
         predicates:
-        - Path=/api/post/**
+        - Path=/api/post/**,/api/post/comment/**
        
       - id: company-service
         uri: lb://company-service
         predicates:
         - Path=/api/company/**
         
-      
+      - id: admin-service
+        uri: lb://admin-service
+        predicates:
+        - Path=/api/admin/**

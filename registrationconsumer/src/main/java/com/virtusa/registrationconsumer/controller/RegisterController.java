@@ -1,4 +1,4 @@
-package com.virtusa.registrationconsumer.controller;
+/*package com.virtusa.registrationconsumer.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.virtusa.registrationconsumer.domain.User;
 
 @Controller
-@RequestMapping(value="/api/useroopo")
+@RequestMapping(value="/api/usesedfrdr")
 public class RegisterController {
 
 	@RequestMapping(value="/register",method=RequestMethod.GET)
 	String registerPage(Model model){
 		model.addAttribute("user",new User());
+	
 		return "register";
 	}
 	
@@ -44,3 +45,4 @@ public class RegisterController {
 		return "home";
 	}
 }
+*/

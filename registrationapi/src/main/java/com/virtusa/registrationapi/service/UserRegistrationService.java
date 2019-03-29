@@ -44,7 +44,7 @@ public class UserRegistrationService {
 	// getting users based on name
 	public List<User> getUsersByName(String name) {
 		logger.debug("service invoked for getting users by name");
-		return repository.findByName(name);
+		return repository.findByNameContainingIgnoreCase(name);
 	}
 
 	// getting all users

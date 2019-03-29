@@ -29,7 +29,7 @@ public class PostService {
 
 	public List<Post> getAll() {
 		
-		return postRepository.findAll();
+		return postRepository.findAllByOrderByDateDesc();
 	}
 
 	public List<Post> getAllPosts() {
