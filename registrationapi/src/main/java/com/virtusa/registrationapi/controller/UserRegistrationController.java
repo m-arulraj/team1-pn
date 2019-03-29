@@ -87,6 +87,13 @@ public class UserRegistrationController {
 		return users;
 		
 	}
+	//delete user by id
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+	public void deleteByUserId(@PathVariable("id") Long id){
+		logger.info("deleting  user");
+		logger.debug("controller invoked for deleting user");
+		service.deleteByuserId(id);
+	}
 	
 	//getting user based on email
 	@RequestMapping(value="/user/email/{email}", method=RequestMethod.GET)

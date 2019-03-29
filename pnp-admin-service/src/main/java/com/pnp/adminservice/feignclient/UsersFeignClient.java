@@ -14,4 +14,7 @@ public interface UsersFeignClient {
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public List<User> getAllusers();
 
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+	public void deleteByUserId(long id);
+
 }

@@ -19,12 +19,13 @@ import com.professionalNetworking.postService.domain.Company;
 import com.professionalNetworking.postService.service.CompanyService;
 
 @RestController
+@RequestMapping(value="/api")
 public class companyController {
 
 	@Autowired
 	CompanyService companyService;
 
-	@RequestMapping(value = "/api/companies", method = RequestMethod.POST)
+	@RequestMapping(value = "/companies", method = RequestMethod.POST)
 	public ResponseEntity<String> saveCompany(@RequestBody Company company) throws URISyntaxException {
 
 		System.out.println(company.getName());
@@ -38,30 +39,29 @@ public class companyController {
 
 	}
 
-	@RequestMapping(value = "/api/getCompanyById/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/getCompanyById/{id}", method = RequestMethod.GET)
 	public Optional<Company> getCompanyData(@PathVariable(value = "id") Long id) {
 		return companyService.getCompanyData(id);
 
 	}
 
-	@RequestMapping(value = "/api/company/deleteCompanyById/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/company/deleteCompanyById/{id}", method = RequestMethod.DELETE)
 	public void deleteCompanyData(@PathVariable(value = "id") Long id) {
 
 		companyService.deleteCompanyData(id);
 
 	}
 
-	@RequestMapping(value = "/api/company/updateCompanyById/{id}/updateName/{name}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/company/updateCompanyById/{id}/updateName/{name}", method = RequestMethod.PUT)
 	public void updateCompany(@PathVariable(value = "id") Long id, @PathVariable(value = "name") String name) {
 
 		companyService.updateCompany(id, name);
 	}
 
-	@RequestMapping(value = "/api/companies/all", method = RequestMethod.GET)
+	@RequestMapping(value = "/companies/all", method = RequestMethod.GET)
 	public List<Company> allCompanies() {
 
 		return companyService.getAllCompanies();
 
 	}
-
 }

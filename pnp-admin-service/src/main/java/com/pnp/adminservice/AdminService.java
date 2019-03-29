@@ -14,6 +14,5 @@ public class AdminService {
 		SpringApplication.run(AdminService.class, args);
 
 	}
-	
-	
+
 }
