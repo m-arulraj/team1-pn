@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pnp.adminservice.domain.User;
 import com.pnp.adminservice.feignclient.UsersFeignClient;
-import com.pnp.adminservice.service.AdminService;
 
 @RestController
 public class AdminResource {
 
-	@Autowired
-	AdminService adminService;
+	/*@Autowired
+	AdminService adminService;*/
 
 	@Autowired
 	UsersFeignClient usersFeignClient;
 
-	@RequestMapping(value = "/api/users", method = RequestMethod.GET)
+	@RequestMapping(value = "api/users", method = RequestMethod.GET)
 	public List<User> getlist() {
+		System.out.println("*************************");
 		List<User> users = null;
 		users = usersFeignClient.getAllusers();
 		return users;

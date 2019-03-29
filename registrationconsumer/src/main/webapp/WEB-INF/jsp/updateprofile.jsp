@@ -177,7 +177,7 @@ span.psw {
     <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">News</a>
     <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Contact</a>-->
 			<div class="c">
-				<a href="api/user/login"
+				<a href="/logout"
 					class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white">Logout
 				</a>
 			</div>
@@ -210,55 +210,54 @@ span.psw {
 			<input type="radio" value="" name="type" onclick="openCity(event, 'Education')">Education
 			<input type="radio" value="" name="type" onclick="openCity(event, 'Skill')">Skill 
 			<input type="radio" value="" name="type" onclick="openCity(event, 'Certificate')">Certificate
-			<input type="radio" value="" name="type"
-				onclick="openCity(event, 'Project')">Project
+			<input type="radio" value="" name="type" onclick="openCity(event, 'Project')">Project
 
 
 		</div>
 		<div id="Education" class="tabcontent">
 			<div class="container">
-				<form>
-					<label for="psw"><b>High School</b></label> <input type="text"
-						placeholder="Enter High School Name" /><br> <label for="psw"><b>Intermediate
-					</b></label> <input type="text" placeholder="Enter Intermediate School Name" /><br>
-					<label for="psw"><b>Graduate </b></label> <input type="text"
+				<form:form action="profile/education" modelAttribute="education">
+					<label for="psw"><b>High School</b></label> <form:input type="text"
+					path="highschool"	placeholder="Enter High School Name" /><br> <label for="psw"><b>Intermediate
+					</b></label> <form:input path="intermediate" type="text" placeholder="Enter Intermediate School Name" /><br>
+					<label for="psw"><b>Graduate </b></label> <form:input path="graduation"  type="text"
 						placeholder="Enter Graduate college Name" /><br> <label
-						for="psw"><b>Post Graduate</b></label> <input type="text"
+						for="psw"><b>Post Graduate</b></label> <form:input path="postgraduation" type="text"
 						placeholder="Enter post graduate college Name" /><br>
 					<button type="submit">Update</button>
-				</form>
+				</form:form>
 			</div>
 		</div>
 		<div id="Skill" class="tabcontent">
 			<div class="container">
-				<form>
-					<label for="psw"><b>Skill Name</b></label> <input type="text"
+				<form:form action="profile/skill" modelAttribute="skill">
+					<label for="psw"><b>Skill Name</b></label> <form:input path="name" type="text"
 						placeholder="Enter your SKill" /><br> 
 					<button type="submit">Update</button>
-				</form>
+				</form:form>
 			</div>
 		</div>
 		<div id="Certificate" class="tabcontent">
 			<div class="container">
-				<form>
-					<label for="psw"><b>Institute Name</b></label> <input type="text"
+				<form:form action="profile/certificate" modelAttribute="certificate">
+					<label for="psw"><b>Institute Name</b></label> <form:input type="text" path="instituteName"
 						placeholder="Enter Institute name" /><br> <label for="psw"><b>Year
-					</b></label> <input type="number" placeholder="Enter Year" /><br> <label
+					</b></label> <form:input path="year" type="number" placeholder="Enter Year" /><br> <label
 						for="psw"><b> </b></label>
 					<button type="submit">Update</button>
-				</form>
+				</form:form>
 			</div>
 		</div>
 		<div id="Project" class="tabcontent">
 			<div class="container">
-				<form>
-					<label for="psw"><b>Type of Project</b></label> <input type="text"
-						placeholder="Enter Type" /><br> <label for="psw"><b>Description
-					</b></label> <input type="text" placeholder="Enter Description" /><br> <label
-						for="psw"><b>Role </b></label> <input type="text"
-						placeholder="Enter Role" /><br> 
+				<form:form action="profile/project" modelAttribute="project">
+					<label for="psw"><b>Type of Project</b></label> <form:input type="text"
+						path="type" placeholder="Enter Type" /><br> <label for="psw"><b>Description
+					</b></label> <form:input path="description" type="text" placeholder="Enter Description" /><br> <label
+						for="psw"><b>Role </b></label> <form:input type="text"
+						path="role" placeholder="Enter Role" /><br> 
 					<button type="submit">Update</button>
-				</form>
+				</form:form>
 			</div>
 		</div>
 	</div>

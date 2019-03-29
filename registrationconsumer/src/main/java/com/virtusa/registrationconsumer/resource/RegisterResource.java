@@ -1,6 +1,9 @@
 package com.virtusa.registrationconsumer.resource;
 
+import java.security.Principal;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +20,7 @@ import com.virtusa.registrationconsumer.service.PostService;
 import com.virtusa.registrationconsumer.service.RegisterService;
 
 @Controller
-@RequestMapping("api/user")
+@RequestMapping("api")
 @SessionAttributes("user")
 public class RegisterResource {
 
@@ -27,33 +30,31 @@ public class RegisterResource {
 	@Autowired
 	PostService postService;
 
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String registerPage(Model model) {
 		model.addAttribute("user", new User());
 		return "register";
 	}
 
-	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String homePage(Model model) {
-		model.addAttribute("user", new User());
-		return "home";
-	}
+	
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String addUser(@ModelAttribute("user") User user, Model model) {
+	public String addUser(@ModelAttribute("user") User user, Model model,HttpSession session) {
 		registerService.saveUser(user);
 
 		model.addAttribute("email", user.getEmail());
 		model.addAttribute("post",new Post());
 		model.addAttribute("listPost", postService.getAllpost());
 		model.addAttribute("user", new User());
+		session.setAttribute("email", user.getEmail());
 		return "home";
 	}
 
 	@RequestMapping(value = "/searchByEmail/{email}", method = RequestMethod.GET)
-	public User searchUserByEmail(@PathVariable(name = "email") String Email) {
+	public User searchUserByEmail(@PathVariable(name = "email") String email,HttpSession session) {
 
-		return registerService.searchByEmail(Email);
+		session.setAttribute("email", email);
+		return registerService.searchByEmail(email);
 	}
 
 	@RequestMapping(value = "/searchBy/name/{name}", method = RequestMethod.GET)

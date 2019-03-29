@@ -8,7 +8,7 @@ public class User {
 
 	
 	Long id;
-	
+
 	String name;
 	String email;
 	Date dob;
@@ -17,6 +17,7 @@ public class User {
 	String country;
 	String state;
 	String password;
+	String username;
 
 	@OneToOne
 	Education education_id;
@@ -99,6 +100,14 @@ public class User {
 
 	public void setEducation_id(Education education_id) {
 		this.education_id = education_id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 }

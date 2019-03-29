@@ -163,8 +163,8 @@ span.psw {
     <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Values</a>
     <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">News</a>
     <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Contact</a>-->
-	<div class="c"><a href="api/user/login" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white" >Login </a>
-    <a href="api/user/register" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white">Register</a> </div>
+	<div class="c"><a href="api/login" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white" >Login </a>
+    <a href="/api" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white">Register</a> </div>
   </div>
 </div><!-- Sidebar -->
 <nav class="w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left" id="mySidebar">
@@ -186,7 +186,7 @@ span.psw {
 </div>
 <div id="Education" class="tabcontent">
 <div class="container">
-<form:form action="register" modelAttribute="user" >
+<form:form action="/api/register" modelAttribute="user" >
   
 
   <div class="container">

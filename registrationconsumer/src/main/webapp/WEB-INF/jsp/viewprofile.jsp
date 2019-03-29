@@ -173,7 +173,7 @@ span.psw {
     <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">News</a>
     <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Contact</a>-->
 			<div class="c">
-				<a href="api/user/login"
+				<a href="/logout"
 					class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white">Logout
 				</a>
 			</div>

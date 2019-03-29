@@ -44,8 +44,8 @@ div.c {
     <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Values</a>
     <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">News</a>
     <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Contact</a>-->
-	<div class="c"><a href="/api/user/login" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white" >Login </a>
-    <a href="/api/user/register" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white">Register</a> </div>
+	<div class="c"><a href="/api/login" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white" >Login </a>
+    <a href="/api" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white">Register</a> </div>
   </div>
 </div>
 

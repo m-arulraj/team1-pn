@@ -12,6 +12,4 @@ public interface PostService {
 	
 	public List<Post> getAllpost();
 
-	public List<Post> getAllPosts();
-
 }

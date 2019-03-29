@@ -198,16 +198,16 @@ span.psw {
 				href="javascript:void(0)" onclick="w3_open()"><i
 				class="fa fa-bars"></i></a> <a href=""
 				class="w3-bar-item w3-button w3-hide-small w3-hover-white">Professional
-				Networking</a> <a href="profile/c"
+				Networking</a> <a href="user/profile/c"
 				class="w3-bar-item w3-button w3-hide-small w3-hover-white">View
-				Profile</a> <a href="profile"
+				Profile</a> <a href="user/profile"
 				class="w3-bar-item w3-button w3-hide-small w3-hover-white">Update
 				Profile</a>
 			<!-- <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Values</a>
     <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">News</a>
     <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Contact</a>-->
 			<div class="c">
-				<a href="/api/user/welcome"
+				<a href="/logout"
 					class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white">logout</a>
 			</div>
 		</div>
@@ -231,6 +231,10 @@ span.psw {
 	</nav>
 	<!-- Middle Column -->
 	<div class="w3-main" style="margin-left: 250px">
+	<form class="example" action="/api/user/search" method="get">
+			<br> <br> <br> </input><input type="text"
+				placeholder="Search by name" name="name" /> <button class="w3-button w3-theme-d2 w3-margin-bottom"type ="submit">Search</button>
+		</form>
 		<form class="example" action="/api/user/post/upost" method="post">
 			<br> <br> <br> <input type="hidden" name="email" value="${email}" ></input><input type="text"
 				placeholder="Add Post" name="message" /> <button class="w3-button w3-theme-d2 w3-margin-bottom"type ="submit">Add Post</button>
